@@ -4,7 +4,7 @@ namespace MyApp.Application.Common.Interfaces.Persistance;
 
 public interface IResourceRepository
 {
-    Task<Resource?> GetByIdAsync(Guid id);
+    Task<Resource?> GetByIdAsync(Guid resourceId);
 
     Task<Resource?> GetByNameAsync(string name);
 
