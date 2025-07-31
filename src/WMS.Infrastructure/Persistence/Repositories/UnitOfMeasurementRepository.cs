@@ -1,13 +1,23 @@
-﻿using WMS.Application.Common.Interface.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
+using WMS.Application.Common.Interface.Persistence;
 using WMS.Domain.UnitOfMeasurementAggregate;
+using WMS.Domain.UnitOfMeasurementAggregate.ValueObjects;
 
 namespace WMS.Infrastructure.Persistence.Repositories;
 
 public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
 {
-    public Task AddAsync(UnitOfMeasurement unitOfMeasurement)
+    private readonly MyAppDbContext _context;
+
+    public UnitOfMeasurementRepository(MyAppDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
+    }
+
+    public async Task AddAsync(UnitOfMeasurement unitOfMeasurement)
+    {
+        await _context.UnitOfMeasurements
+            .AddAsync(unitOfMeasurement);
     }
 
     public Task<IEnumerable<UnitOfMeasurement>> GetActiveResourcesAsync()
@@ -25,14 +35,17 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
         throw new NotImplementedException();
     }
 
-    public Task<UnitOfMeasurement?> GetByIdAsync(Guid unitOfMeasurementId)
+    public async Task<UnitOfMeasurement?> GetByIdAsync(Guid unitOfMeasurementId)
     {
-        throw new NotImplementedException();
+        var id = UnitOfMeasurementId.Create(unitOfMeasurementId);
+        return await _context.UnitOfMeasurements
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public Task<UnitOfMeasurement?> GetByNameAsync(string name)
+    public async Task<UnitOfMeasurement?> GetByNameAsync(string name)
     {
-        throw new NotImplementedException();
+        return await _context.UnitOfMeasurements
+            .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
 
     public Task<bool> IsResourceUsedInDocumentsAsync(Guid unitOfMeasurementId)
@@ -42,6 +55,7 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
 
     public Task UpdateAsync(UnitOfMeasurement unitOfMeasurement)
     {
-        throw new NotImplementedException();
+        _context.UnitOfMeasurements.Update(unitOfMeasurement);
+        return Task.CompletedTask;
     }
 }

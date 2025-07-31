@@ -2,5 +2,7 @@
 
 public record UnitOfMeasurementResult
 (
-    Guid id,
-    string name);
+    Guid Id,
+    string Name,
+    bool IsActive
+    );

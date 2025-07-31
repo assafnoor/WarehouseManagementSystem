@@ -11,10 +11,12 @@ public class CreateUnitOfMeasurementCommandHandler :
     IRequestHandler<CreateUnitOfMeasurementCommand, ErrorOr<UnitOfMeasurementResult>>
 {
     private readonly IUnitOfMeasurementRepository _unitOfMeasurementRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateUnitOfMeasurementCommandHandler(IUnitOfMeasurementRepository unitOfMeasurementRepository)
+    public CreateUnitOfMeasurementCommandHandler(IUnitOfMeasurementRepository unitOfMeasurementRepository, IUnitOfWork unitOfWork)
     {
         _unitOfMeasurementRepository = unitOfMeasurementRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<UnitOfMeasurementResult>> Handle(
@@ -29,8 +31,10 @@ public class CreateUnitOfMeasurementCommandHandler :
         }
 
         var unitOfMeasurement = UnitOfMeasurement.Create(command.Name);
-        await _unitOfMeasurementRepository.AddAsync(unitOfMeasurement);
 
-        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name);
+        await _unitOfMeasurementRepository.AddAsync(unitOfMeasurement);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name, unitOfMeasurement.IsActive);
     }
 }

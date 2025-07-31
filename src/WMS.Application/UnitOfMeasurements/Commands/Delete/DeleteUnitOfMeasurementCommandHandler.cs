@@ -34,6 +34,6 @@ public class DeleteUnitOfMeasurementCommandHandler :
 
         await _unitOfMeasurementRepository.UpdateAsync(unitOfMeasurement);
 
-        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name);
+        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name, unitOfMeasurement.IsActive);
     }
 }

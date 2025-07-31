@@ -10,10 +10,12 @@ public class UpdateUnitOfMeasurementCommandHandler :
     IRequestHandler<UpdateUnitOfMeasurementCommand, ErrorOr<UnitOfMeasurementResult>>
 {
     private readonly IUnitOfMeasurementRepository _unitOfMeasurementRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateUnitOfMeasurementCommandHandler(IUnitOfMeasurementRepository unitOfMeasurementRepository)
+    public UpdateUnitOfMeasurementCommandHandler(IUnitOfMeasurementRepository unitOfMeasurementRepository, IUnitOfWork unitOfWork)
     {
         _unitOfMeasurementRepository = unitOfMeasurementRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<UnitOfMeasurementResult>> Handle(
@@ -34,8 +36,10 @@ public class UpdateUnitOfMeasurementCommandHandler :
             return Errors.UnitOfMeasurement.NameAlreadyExists;
 
         unitOfMeasurement.ChangeName(command.Name);
-        await _unitOfMeasurementRepository.UpdateAsync(unitOfMeasurement);
 
-        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name);
+        await _unitOfMeasurementRepository.UpdateAsync(unitOfMeasurement);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name, unitOfMeasurement.IsActive);
     }
 }
