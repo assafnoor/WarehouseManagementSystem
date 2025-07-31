@@ -11,12 +11,16 @@ public sealed class ReceiptResource : Entity<ReceiptResourceId>
     public ResourceId ResourceId { get; private set; }
     public UnitOfMeasurementId UnitOfMeasurementId { get; private set; }
     public Quantity Quantity { get; private set; }
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
 
     private ReceiptResource(ReceiptResourceId id, ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, Quantity quantity) : base(id)
     {
         ResourceId = resourceId;
         UnitOfMeasurementId = unitOfMeasurementId;
         Quantity = quantity;
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public static ReceiptResource Create(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, Quantity quantity)

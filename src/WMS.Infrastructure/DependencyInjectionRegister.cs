@@ -26,7 +26,7 @@ public static class DependencyInjectionRegister
         this IServiceCollection services)
     {
         services.AddDbContext<MyAppDbContext>(options =>
-            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=myApp;Integrated Security=True"));
+            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=myAppTest;Integrated Security=True"));
 
         services.AddScoped<PublishDomainEventsInterceptor>();
 
