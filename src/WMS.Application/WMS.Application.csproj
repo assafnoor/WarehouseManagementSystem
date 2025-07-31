@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Errors\FluentResults\" />
+    <Folder Include="UnitOfMeasurement\" />
     <Folder Include="Resources\Events\" />
   </ItemGroup>
 

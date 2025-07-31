@@ -12,7 +12,7 @@ public static partial class Errors
 
         public static Error NotFound => Error.NotFound(
             code: "Resource.NotFound",
-            description: "A resource with Given Id Not Found.");
+            description: "No resource was found with the specified ID.");
 
         public static Error AlreadyArchived => Error.Conflict(
             code: "Resource.AlreadyArchived",
@@ -24,6 +24,10 @@ public static partial class Errors
 
         public static Error Archived => Error.Conflict(
             code: "Resource.Archived",
-            description: "cant update resoucrs Archived.");
+            description: "Cannot update an archived resource.");
+
+        public static Error CannotArchiveInUse => Error.Conflict(
+            code: "Resource.CannotArchiveInUse",
+            description: "Resource is currently in use and cannot be archived.");
     }
 }

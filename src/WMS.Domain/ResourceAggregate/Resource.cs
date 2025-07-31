@@ -53,8 +53,8 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
 
     public ErrorOr<Success> CanBeArchived(bool isUsedInDocuments)
     {
-        //if (isUsedInDocuments)
-        //    return Errors.Resource.CannotArchiveInUse;
+        if (isUsedInDocuments)
+            return Errors.Resource.CannotArchiveInUse;
 
         return Archive();
     }
