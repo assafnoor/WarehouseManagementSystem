@@ -33,8 +33,6 @@ public class ReceiptDocumentConfiguration : IEntityTypeConfiguration<ReceiptDocu
 
         builder.Property(r => r.Date)
             .IsRequired();
-
-        // Configure ReceiptResources as owned collection
         builder.OwnsMany(r => r.ReceiptResources, rr =>
         {
             rr.ToTable("ReceiptResources");
@@ -48,7 +46,7 @@ public class ReceiptDocumentConfiguration : IEntityTypeConfiguration<ReceiptDocu
                 .HasColumnName("Id")
                 .HasConversion(
                     id => id.Value,
-                    value => Domain.ReceiptDocumentAggregate.ValueObjects.ReceiptResourceId.Create(value)
+                    value => ReceiptResourceId.Create(value)
                 );
 
             rr.Property(r => r.ResourceId)
@@ -72,8 +70,6 @@ public class ReceiptDocumentConfiguration : IEntityTypeConfiguration<ReceiptDocu
                     .IsRequired();
             });
 
-            rr.HasKey("Id");
-            rr.Property<Guid>("ReceiptDocumentId"); // EF needs to know the shadow FK
             rr.HasIndex("ReceiptDocumentId");
         });
     }

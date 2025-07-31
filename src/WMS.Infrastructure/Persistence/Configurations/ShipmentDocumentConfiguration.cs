@@ -84,7 +84,8 @@ public class ShipmentDocumentConfiguration : IEntityTypeConfiguration<ShipmentDo
                     .IsRequired();
             });
 
-            sr.Property<Guid>("ShipmentDocumentId");
+            // sr.Property<Guid>("ShipmentDocumentId");
+
             sr.HasIndex("ShipmentDocumentId");
         });
     }

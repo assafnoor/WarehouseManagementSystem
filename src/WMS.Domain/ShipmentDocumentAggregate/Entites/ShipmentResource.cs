@@ -27,4 +27,7 @@ public sealed class ShipmentResource : Entity<ShipmentResourceId>
     {
         return new ShipmentResource(ShipmentResourceId.CreateUnique(), resourceId, unitOfMeasurementId, quantity);
     }
+
+    private ShipmentResource()
+    { }
 }
