@@ -25,17 +25,19 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
 
     public static Client Create(string name, Address address)
     {
-        return new Client(ClientId.CreateUnique(), name, address);
+        return new Client(ClientId.CreateUnique(), name.Trim(), address);
     }
 
     public void ChangeName(string name)
     {
         Name = name.Trim();
+        Touch();
     }
 
     public void ChangeAddress(Address address)
     {
         Address = address;
+        Touch();
     }
 
     public ErrorOr<Updated> Archive()
@@ -44,6 +46,7 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
             return Errors.Client.AlreadyArchived;
 
         IsActive = false;
+        Touch();
         return Result.Updated;
     }
 
@@ -53,6 +56,7 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
             return Errors.Client.AlreadyActive;
 
         IsActive = true;
+        Touch();
         return Result.Updated;
     }
 
@@ -66,6 +70,11 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
             return Errors.Client.CannotArchiveInUse;
 
         return Archive();
+    }
+
+    private void Touch()
+    {
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
 #pragma warning disable CS8618

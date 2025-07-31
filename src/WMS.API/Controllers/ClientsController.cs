@@ -2,7 +2,10 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WMS.API.Controllers.Common;
+using WMS.Application.Clients.Commands.Activate;
+using WMS.Application.Clients.Commands.Archive;
 using WMS.Application.Clients.Commands.Create;
+using WMS.Application.Clients.Commands.Update;
 using WMS.Contracts.Clients;
 
 namespace WMS.Api.Controllers;
@@ -28,6 +31,45 @@ public class ClientsController : ApiController
 
         var createResult = await _mediator.Send(command);
         return createResult.Match(
+            client => Ok(_mapper.Map<ClientResponse>(client)),
+            errors => Problem(errors));
+    }
+
+    [HttpPost("Archive")]
+    public async Task<IActionResult> ArchiveClient(
+    ArchiveClientRequest request
+    )
+    {
+        var command = _mapper.Map<ArchiveClientCommand>((request));
+
+        var result = await _mediator.Send(command);
+        return result.Match(
+            client => Ok(_mapper.Map<ClientResponse>(client)),
+            errors => Problem(errors));
+    }
+
+    [HttpPost("Activate")]
+    public async Task<IActionResult> ActivateClient(
+    ActivateClientRequest request
+    )
+    {
+        var command = _mapper.Map<ActivateClientCommand>((request));
+
+        var result = await _mediator.Send(command);
+        return result.Match(
+            client => Ok(_mapper.Map<ClientResponse>(client)),
+            errors => Problem(errors));
+    }
+
+    [HttpPost("Update")]
+    public async Task<IActionResult> UpdateClient(
+         UpdateClientRequest request
+        )
+    {
+        var command = _mapper.Map<UpdateClientCommand>((request));
+
+        var result = await _mediator.Send(command);
+        return result.Match(
             client => Ok(_mapper.Map<ClientResponse>(client)),
             errors => Problem(errors));
     }

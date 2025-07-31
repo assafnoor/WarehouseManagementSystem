@@ -37,10 +37,6 @@ public class CreateClientCommandHandler :
         await _clientRepository.AddAsync(client);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new ClientResult(client.Id.Value, client.Name,
-            new AddressResult(
-                client.Address.Street ?? string.Empty,
-                client.Address.City,
-                client.Address.PostalCode));
+        return ClientResult.From(client);
     }
 }

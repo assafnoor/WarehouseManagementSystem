@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WMS.Application.Common.Interface.Persistence;
 using WMS.Domain.ClientAggregate;
+using WMS.Domain.ClientAggregate.ValueObjects;
 
 namespace WMS.Infrastructure.Persistence.Repositories;
 
@@ -19,24 +20,31 @@ public class ClientRepository : IClientRepository
             .AddAsync(client);
     }
 
-    public Task<IEnumerable<Client>> GetActiveResourcesAsync()
+    public async Task<IEnumerable<Client>> GetActiveResourcesAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Clients
+            .Where(c => c.IsActive)
+            .ToListAsync();
     }
 
-    public Task<IEnumerable<Client>> GetAllResourcesAsync()
+    public async Task<IEnumerable<Client>> GetAllResourcesAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Clients
+            .ToListAsync();
     }
 
-    public Task<IEnumerable<Client>> GetArchivedResourcesAsync()
+    public async Task<IEnumerable<Client>> GetArchivedResourcesAsync()
     {
-        throw new NotImplementedException();
+        return await _context.Clients
+            .Where(c => !c.IsActive)
+            .ToListAsync();
     }
 
-    public Task<Client?> GetByIdAsync(Guid clientId)
+    public async Task<Client?> GetByIdAsync(Guid clientId)
     {
-        throw new NotImplementedException();
+        var id = ClientId.Create(clientId);
+        return await _context.Clients
+            .FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<Client?> GetByNameAsync(string name)
@@ -45,13 +53,15 @@ public class ClientRepository : IClientRepository
             .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
 
-    public Task<bool> IsResourceUsedInDocumentsAsync(Guid clientId)
+    public async Task<bool> IsResourceUsedInDocumentsAsync(Guid clientId)
     {
-        throw new NotImplementedException();
+        // Placeholder: Replace with actual document check
+        return await Task.FromResult(false);
     }
 
-    public Task UpdateAsync(Client resource)
+    public Task UpdateAsync(Client client)
     {
-        throw new NotImplementedException();
+        _context.Clients.Update(client);
+        return Task.CompletedTask;
     }
 }

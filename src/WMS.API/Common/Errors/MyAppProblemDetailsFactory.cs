@@ -97,6 +97,7 @@ internal sealed class MyAppProblemDetailsFactory : ProblemDetailsFactory
         if (errors is not null)
         {
             problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
+            problemDetails.Extensions.Add("description", errors.Select(e => e.Description));
         }
         _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
     }

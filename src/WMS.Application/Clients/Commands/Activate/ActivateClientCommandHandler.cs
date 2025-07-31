@@ -10,10 +10,12 @@ public class ActivateClientCommandHandler :
     IRequestHandler<ActivateClientCommand, ErrorOr<ClientResult>>
 {
     private readonly IClientRepository _clientRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ActivateClientCommandHandler(IClientRepository clientRepository)
+    public ActivateClientCommandHandler(IClientRepository clientRepository, IUnitOfWork unitOfWork)
     {
         _clientRepository = clientRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<ClientResult>> Handle(
@@ -29,11 +31,8 @@ public class ActivateClientCommandHandler :
             return activateResult.Errors;
 
         await _clientRepository.UpdateAsync(client);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new ClientResult(client.Id.Value, client.Name,
-            new AddressResult(
-                client.Address.Street ?? string.Empty,
-                client.Address.City,
-                client.Address.PostalCode));
+        return ClientResult.From(client);
     }
 }
