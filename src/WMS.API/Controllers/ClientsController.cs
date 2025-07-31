@@ -6,6 +6,7 @@ using WMS.Application.Clients.Commands.Activate;
 using WMS.Application.Clients.Commands.Archive;
 using WMS.Application.Clients.Commands.Create;
 using WMS.Application.Clients.Commands.Update;
+using WMS.Application.Clients.Queries.GetById;
 using WMS.Contracts.Clients;
 
 namespace WMS.Api.Controllers;
@@ -21,6 +22,8 @@ public class ClientsController : ApiController
         _mapper = mapper;
         _mediator = mediator;
     }
+
+    #region Command
 
     [HttpPost("Add")]
     public async Task<IActionResult> CreateClient(
@@ -73,4 +76,22 @@ public class ClientsController : ApiController
             client => Ok(_mapper.Map<ClientResponse>(client)),
             errors => Problem(errors));
     }
+
+    #endregion Command
+
+    #region Query
+
+    [HttpGet("GetById/{Id}")]
+    public async Task<IActionResult> GetByIdClient([FromRoute] Guid Id)
+    {
+        var query = _mapper.Map<GetByIdClientQuery>(Id);
+
+        var result = await _mediator.Send(query);
+
+        return result.Match(
+            client => Ok(_mapper.Map<ClientResponse>(client)),
+            errors => Problem(errors));
+    }
+
+    #endregion Query
 }
