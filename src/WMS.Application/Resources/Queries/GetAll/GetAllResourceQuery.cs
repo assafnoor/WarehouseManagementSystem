@@ -5,5 +5,6 @@ using WMS.Application.Resources.Common;
 namespace WMS.Application.Resources.Queries.GetAll;
 
 public record GetAllResourceQuery(
-    bool status
-) : IRequest<ErrorOr<IEnumerable<ResourceResult>>>;
+  bool? Status,
+  int Page,
+  int PageSize) : IRequest<ErrorOr<IEnumerable<ResourceResult>>>;

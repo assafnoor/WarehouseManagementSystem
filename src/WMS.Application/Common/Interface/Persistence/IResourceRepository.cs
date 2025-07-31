@@ -19,4 +19,9 @@ public interface IResourceRepository
     Task AddAsync(Resource resource);
 
     Task UpdateAsync(Resource resource);
+
+    Task<IEnumerable<Resource?>> GetAllAsync(
+    bool? Status,
+    int Page,
+    int PageSize);
 }

@@ -1,4 +1,5 @@
-﻿using MapsterMapper;
+﻿using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WMS.API.Controllers.Common;
@@ -6,7 +7,9 @@ using WMS.Application.Resources.Commands.Activate;
 using WMS.Application.Resources.Commands.Archive;
 using WMS.Application.Resources.Commands.Create;
 using WMS.Application.Resources.Commands.Update;
+using WMS.Application.Resources.Queries.GetAll;
 using WMS.Application.Resources.Queries.GetById;
+using WMS.Contracts.Clients;
 using WMS.Contracts.UnitOfMeasurements.Resources;
 
 namespace WMS.API.Controllers
@@ -94,16 +97,16 @@ namespace WMS.API.Controllers
                 errors => Problem(errors));
         }
 
-        //[HttpGet("GetAll")]
-        //public async Task<IActionResult> GetAllClients([FromQuery] GetAllClientsRequest request)
-        //{
-        //    var query = _mapper.Map<GetAllResourceQuery>(request);
-        //    var result = await _mediator.Send(query);
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllClients([FromQuery] GetAllClientsRequest request)
+        {
+            var query = _mapper.Map<GetAllResourceQuery>(request);
+            var result = await _mediator.Send(query);
 
-        //    return result.Match(
-        //    Resource => Ok(Resource.Adapt<List<ResourceResponse>>()),
-        //    errors => Problem(errors));
-        //}
+            return result.Match(
+            Resource => Ok(Resource.Adapt<List<ResourceResponse>>()),
+            errors => Problem(errors));
+        }
 
         #endregion Query
     }
