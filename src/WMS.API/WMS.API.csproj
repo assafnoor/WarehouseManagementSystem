@@ -12,4 +12,10 @@
 	<ItemGroup>
 	  <Folder Include="Controllers\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\WMS.Application\WMS.Application.csproj" />
+	  <ProjectReference Include="..\WMS.Contracts\WMS.Contracts.csproj" />
+	  <ProjectReference Include="..\WMS.Infrastructure\WMS.Infrastructure.csproj" />
+	</ItemGroup>
 </Project>
