@@ -22,15 +22,15 @@ public class CreateUnitOfMeasurementCommandHandler :
         CancellationToken cancellationToken)
     {
         // Check if any UnitOfMeasurement with this name exists (active or archived)
-        var existingResource = await _unitOfMeasurementRepository.GetByNameAsync(command.Name);
-        if (existingResource is not null)
+        var existingUnitOfMeasurement = await _unitOfMeasurementRepository.GetByNameAsync(command.Name);
+        if (existingUnitOfMeasurement is not null)
         {
             return Errors.UnitOfMeasurement.NameAlreadyExists;
         }
 
-        var resource = UnitOfMeasurement.Create(command.Name);
-        await _unitOfMeasurementRepository.AddAsync(resource);
+        var unitOfMeasurement = UnitOfMeasurement.Create(command.Name);
+        await _unitOfMeasurementRepository.AddAsync(unitOfMeasurement);
 
-        return new UnitOfMeasurementResult(resource.Id.Value, resource.Name);
+        return new UnitOfMeasurementResult(unitOfMeasurement.Id.Value, unitOfMeasurement.Name);
     }
 }

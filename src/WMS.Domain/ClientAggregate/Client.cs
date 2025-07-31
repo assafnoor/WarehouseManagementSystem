@@ -24,6 +24,16 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
         return new Client(ClientId.CreateUnique(), name, address);
     }
 
+    public void ChangeName(string name)
+    {
+        Name = name.Trim();
+    }
+
+    public void ChangeAddress(Address address)
+    {
+        Address = address;
+    }
+
     public ErrorOr<Updated> Archive()
     {
         if (!IsActive)
@@ -40,5 +50,17 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
 
         IsActive = true;
         return Result.Updated;
+    }
+
+    public bool IsActivated() => IsActive;
+
+    public bool IsArchived() => !IsActive;
+
+    public ErrorOr<Updated> CanBeArchived(bool isUsedInDocuments)
+    {
+        if (isUsedInDocuments)
+            return Errors.Client.CannotArchiveInUse;
+
+        return Archive();
     }
 }

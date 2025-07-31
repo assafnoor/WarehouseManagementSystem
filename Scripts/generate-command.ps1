@@ -1,159 +1,82 @@
 ﻿param (
-    [Parameter(Mandatory = $true, HelpMessage = "The entity name (e.g., Resource, Product)")]
-    [ValidateNotNullOrEmpty()]
     [string]$Entity,
-    
-    [Parameter(Mandatory = $true, HelpMessage = "The operation type (e.g., Create, Update, Delete)")]
-    [ValidateNotNullOrEmpty()]
-    [ValidateSet("Create", "Update", "Delete", "Activate", "Deactivate")]
-    [string]$Operation,
-    
-    [Parameter(HelpMessage = "Base path for the WMS Application")]
-    [string]$BasePath = "../src/WMS.Application"
+    [string]$Operation
 )
 
-# Input validation and setup
-$Entity = $Entity.Trim()
-$Operation = $Operation.Trim()
-
-if (-not (Test-Path $BasePath)) {
-    Write-Error "❌ Base path '$BasePath' does not exist. Please verify the path."
-    exit 1
+if (-not $Entity -or -not $Operation) {
+    Write-Host "❌ Usage: .\generate-command.ps1 -Entity Resource -Operation Create"
+    exit
 }
 
-# Generate names and paths
-$targetPath = Join-Path $BasePath "${Entity}s" "Commands" $Operation
+$basePath = "../src/WMS.Application/${Entity}s/Commands/$Operation"
+New-Item -ItemType Directory -Force -Path $basePath | Out-Null
+
 $commandName = "${Operation}${Entity}Command"
 $handlerName = "${commandName}Handler"
 $validatorName = "${commandName}Validator"
-$variableName = $Entity.Substring(0, 1).ToLower() + $Entity.Substring(1)
+$variableName = "${Entity.Substring(0,1).ToLower()}$($Entity.Substring(1))"
 
-Write-Host "🔧 Generating CQRS components for: $Entity ($Operation)" -ForegroundColor Cyan
-
-# Create directory structure
-try {
-    New-Item -ItemType Directory -Force -Path $targetPath | Out-Null
-    Write-Host "📁 Created directory: $targetPath" -ForegroundColor Green
-}
-catch {
-    Write-Error "❌ Failed to create directory: $_"
-    exit 1
-}
-
-# Template functions for better maintainability
-function Get-CommandTemplate {
-    param($CommandName, $Entity, $Operation)
-    
-    $idParameter = if ($Operation -eq "Update") { "`n    Guid Id," } else { "" }
-    
-    return @"
+# 1. Command
+@"
 using ErrorOr;
 using MediatR;
 using WMS.Application.${Entity}s.Common;
 
 namespace WMS.Application.${Entity}s.Commands.${Operation};
 
-public record ${CommandName}($idParameter
-    string Name
+public record ${commandName}(
+    $(if ($Operation -eq "Update") { "Guid Id,\n    " })string Name
 ) : IRequest<ErrorOr<${Entity}Result>>;
-"@
-}
+"@ | Out-File "$basePath\$commandName.cs" -Encoding utf8
 
-function Get-HandlerTemplate {
-    param($HandlerName, $CommandName, $Entity, $Operation, $VariableName)
-    
-    return @"
+# 2. Handler
+@"
 using ErrorOr;
 using MediatR;
-using WMS.Application.Common.Interfaces.Persistence;
+using MyApp.Application.Common.Interfaces.Persistance;
 using WMS.Application.${Entity}s.Common;
 using WMS.Domain.Common.ErrorCatalog;
 using WMS.Domain.${Entity}Aggregate;
 
 namespace WMS.Application.${Entity}s.Commands.${Operation};
 
-public class ${HandlerName} : IRequestHandler<${CommandName}, ErrorOr<${Entity}Result>>
+public class ${handlerName} :
+    IRequestHandler<${commandName}, ErrorOr<${Entity}Result>>
 {
-    private readonly I${Entity}Repository _${VariableName}Repository;
+    private readonly I${Entity}Repository _$variableName`Repository;
 
-    public ${HandlerName}(I${Entity}Repository ${VariableName}Repository)
+    public ${handlerName}(I${Entity}Repository $variableName`Repository)
     {
-        _${VariableName}Repository = ${VariableName}Repository;
+        _$variableName`Repository = $variableName`Repository;
     }
 
     public async Task<ErrorOr<${Entity}Result>> Handle(
-        ${CommandName} command,
+        ${commandName} command,
         CancellationToken cancellationToken)
     {
-        // TODO: Implement $Operation logic for $Entity
-        // Example structure:
-        // 1. Validate business rules
-        // 2. $(if ($Operation -eq "Create") { "Create new entity" } elseif ($Operation -eq "Update") { "Retrieve and update entity" } else { "Process $Operation operation" })
-        // 3. Save changes
-        // 4. Return result
-        
-        throw new NotImplementedException("$Operation$Entity operation not yet implemented");
+        // TODO: implement $Operation logic
+        throw new NotImplementedException();
     }
 }
-"@
-}
+"@ | Out-File "$basePath\$handlerName.cs" -Encoding utf8
 
-function Get-ValidatorTemplate {
-    param($ValidatorName, $CommandName, $Operation)
-    
-    $idValidation = if ($Operation -eq "Update") { "`n        RuleFor(x => x.Id).NotEmpty();" } else { "" }
-    
-    return @"
+# 3. Validator
+@"
 using FluentValidation;
 
 namespace WMS.Application.${Entity}s.Commands.${Operation};
 
-public class ${ValidatorName} : AbstractValidator<${CommandName}>
+public class ${validatorName} : AbstractValidator<${commandName}>
 {
-    public ${ValidatorName}()
+    public ${validatorName}()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("Name is required")
-            .MaximumLength(255)
-            .WithMessage("Name cannot exceed 255 characters");$idValidation
+            .MaximumLength(255);
+
+        $(if ($Operation -eq "Update") { "RuleFor(x => x.Id).NotEmpty();" })
     }
 }
-"@
-}
+"@ | Out-File "$basePath\$validatorName.cs" -Encoding utf8
 
-# Generate files
-$files = @(
-    @{ Name = "$commandName.cs"; Content = Get-CommandTemplate $commandName $Entity $Operation; Type = "Command" },
-    @{ Name = "$handlerName.cs"; Content = Get-HandlerTemplate $handlerName $commandName $Entity $Operation $variableName; Type = "Handler" },
-    @{ Name = "$validatorName.cs"; Content = Get-ValidatorTemplate $validatorName $commandName $Operation; Type = "Validator" }
-)
-
-foreach ($file in $files) {
-    $filePath = Join-Path $targetPath $file.Name
-    
-    try {
-        $file.Content | Out-File $filePath -Encoding UTF8
-        Write-Host "✅ Created $($file.Type): $($file.Name)" -ForegroundColor Green
-    }
-    catch {
-        Write-Error "❌ Failed to create $($file.Name): $_"
-        exit 1
-    }
-}
-
-# Summary
-Write-Host "`n🎉 Successfully generated CQRS components:" -ForegroundColor Yellow
-Write-Host "   📄 Command: $commandName" -ForegroundColor White
-Write-Host "   🔧 Handler: $handlerName" -ForegroundColor White  
-Write-Host "   ✅ Validator: $validatorName" -ForegroundColor White
-Write-Host "   📁 Location: $targetPath" -ForegroundColor White
-
-# Optional: Open in VS Code if available
-if (Get-Command code -ErrorAction SilentlyContinue) {
-    $openInVSCode = Read-Host "`n🔧 Open generated files in VS Code? (y/N)"
-    if ($openInVSCode -eq 'y' -or $openInVSCode -eq 'Y') {
-        code $targetPath
-        Write-Host "🚀 Opened in VS Code" -ForegroundColor Green
-    }
-}
+Write-Host "✅ Created: $commandName, $handlerName, $validatorName in $basePath"
