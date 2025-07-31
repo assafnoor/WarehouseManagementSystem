@@ -11,9 +11,9 @@ public class ActivateResourceCommandHandler :
 {
     private readonly IResourceRepository _resourceRepository;
 
-    public ActivateResourceCommandHandler(IResourceRepository esourceRepository)
+    public ActivateResourceCommandHandler(IResourceRepository resourceRepository)
     {
-        _resourceRepository = esourceRepository;
+        _resourceRepository = resourceRepository;
     }
 
     public async Task<ErrorOr<ResourceResult>> Handle(

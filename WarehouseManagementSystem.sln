@@ -18,7 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57E5C6CC-2F6E-4E1E-81D3-358A9BD76F5B}"
 	ProjectSection(SolutionItems) = preProject
 		Scripts\generate-command.ps1 = Scripts\generate-command.ps1
-		Scripts\generate-querie.ps1 = Scripts\generate-querie.ps1
+		Scripts\generate-query.ps1 = Scripts\generate-query.ps1
 	EndProjectSection
 EndProject
 Global

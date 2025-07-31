@@ -6,10 +6,8 @@ public class ArchiveResourceCommandValidator : AbstractValidator<ArchiveResource
 {
     public ArchiveResourceCommandValidator()
     {
-        RuleFor(x => x.Name)
+        RuleFor(x => x.Id)
             .NotEmpty()
-            .MaximumLength(255);
-
-        
+    ;
     }
 }

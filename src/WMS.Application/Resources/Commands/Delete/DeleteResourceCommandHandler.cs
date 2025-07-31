@@ -11,9 +11,9 @@ public class DeleteResourceCommandHandler :
 {
     private readonly IResourceRepository _resourceRepository;
 
-    public DeleteResourceCommandHandler(IResourceRepository esourceRepository)
+    public DeleteResourceCommandHandler(IResourceRepository resourceRepository)
     {
-        _resourceRepository = esourceRepository;
+        _resourceRepository = resourceRepository;
     }
 
     public async Task<ErrorOr<ResourceResult>> Handle(

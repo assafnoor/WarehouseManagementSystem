@@ -11,9 +11,9 @@ public class ArchiveResourceCommandHandler :
 {
     private readonly IResourceRepository _resourceRepository;
 
-    public ArchiveResourceCommandHandler(IResourceRepository esourceRepository)
+    public ArchiveResourceCommandHandler(IResourceRepository resourceRepository)
     {
-        _resourceRepository = esourceRepository;
+        _resourceRepository = resourceRepository;
     }
 
     public async Task<ErrorOr<ResourceResult>> Handle(

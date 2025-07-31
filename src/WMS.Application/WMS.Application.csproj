@@ -20,7 +20,6 @@
   <ItemGroup>
     <Folder Include="Common\Errors\FluentResults\" />
     <Folder Include="Resources\Events\" />
-    <Folder Include="Resources\Queries\" />
   </ItemGroup>
 
 </Project>

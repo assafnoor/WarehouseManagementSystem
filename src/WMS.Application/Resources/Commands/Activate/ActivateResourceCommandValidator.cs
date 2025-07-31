@@ -6,10 +6,8 @@ public class ActivateResourceCommandValidator : AbstractValidator<ActivateResour
 {
     public ActivateResourceCommandValidator()
     {
-        RuleFor(x => x.Name)
+        RuleFor(x => x.Id)
             .NotEmpty()
-            .MaximumLength(255);
-
-        
+            ;
     }
 }
