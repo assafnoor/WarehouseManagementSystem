@@ -1,5 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using WMS.Domain.BalanceAggregate;
+using WMS.Domain.ClientAggregate;
 using WMS.Domain.Common.Models;
+using WMS.Domain.ReceiptDocumentAggregate;
+using WMS.Domain.ResourceAggregate;
+using WMS.Domain.ShipmentDocumentAggregate;
+using WMS.Domain.UnitOfMeasurementAggregate;
 using WMS.Infrastructure.Persistence.Interceptors;
 
 namespace WMS.Infrastructure.Persistence;
@@ -15,6 +21,13 @@ public sealed class MyAppDbContext : DbContext
     {
         _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
     }
+
+    public DbSet<Client> Client { get; set; } = null!;
+    public DbSet<Resource> Resources { get; set; } = null!;
+    public DbSet<ReceiptDocument> ReceiptDocuments { get; set; } = null!;
+    public DbSet<ShipmentDocument> ShipmentDocuments { get; set; } = null!;
+    public DbSet<Balance> Balances { get; set; } = null!;
+    public DbSet<UnitOfMeasurement> UnitOfMeasurements { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

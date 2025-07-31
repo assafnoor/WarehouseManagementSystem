@@ -32,4 +32,11 @@ public sealed class ReceiptResource : Entity<ReceiptResourceId>
     {
         Quantity = quantity;
     }
+
+#pragma warning disable CS8618
+
+    private ReceiptResource()
+    { }
+
+#pragma warning restore CS8618
 }

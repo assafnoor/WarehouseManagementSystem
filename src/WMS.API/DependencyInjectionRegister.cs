@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using MyApp.Api.Common.Mapping;
 using WMS.Api.Common.Errors;
 
 namespace WMS.Api;
@@ -10,6 +11,8 @@ public static class DependencyInjectionRegister
         services.AddControllers();
         services.AddOpenApi();
         services.AddSingleton<ProblemDetailsFactory, MyAppProblemDetailsFactory>();
+        services.AddMappings();
+        services.AddHttpContextAccessor();
 
         services.AddEndpointsApiExplorer();
         //services.AddSwaggerGen(d =>

@@ -62,4 +62,11 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
 
         return Archive();
     }
+
+#pragma warning disable CS8618
+
+    private Resource()
+    { }
+
+#pragma warning restore CS8618
 }

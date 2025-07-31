@@ -54,4 +54,11 @@ public sealed class Balance : AggregateRoot<BalanceId, Guid>
     {
         return !Quantity.IsLessThan(requiredQuantity);
     }
+
+#pragma warning disable CS8618
+
+    private Balance()
+    { }
+
+#pragma warning restore CS8618
 }

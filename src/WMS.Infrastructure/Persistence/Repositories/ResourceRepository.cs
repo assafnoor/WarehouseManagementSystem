@@ -1,4 +1,4 @@
-using MyApp.Application.Common.Interfaces.Persistance;
+using MyApp.Application.Common.Interfaces.Persistence;
 using WMS.Domain.ResourceAggregate;
 using WMS.Infrastructure.Persistence;
 

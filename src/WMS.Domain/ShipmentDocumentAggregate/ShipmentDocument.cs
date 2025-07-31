@@ -33,4 +33,11 @@ public sealed class ShipmentDocument : AggregateRoot<ShipmentDocumentId, Guid>
     {
         return new ShipmentDocument(ShipmentDocumentId.CreateUnique(), number, clientId, date);
     }
+
+#pragma warning disable CS8618
+
+    private ShipmentDocument()
+    { }
+
+#pragma warning restore CS8618
 }

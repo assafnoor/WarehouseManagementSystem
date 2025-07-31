@@ -85,4 +85,11 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
     {
         AddDomainEvent(new ReceiptDocumentDeletedEvent(Id, ReceiptResources.ToList()));
     }
+
+#pragma warning disable CS8618
+
+    private ReceiptDocument()
+    { }
+
+#pragma warning restore CS8618
 }

@@ -28,4 +28,11 @@ public sealed class ClientId : AggregateRootId<Guid>
             yield return Value;
         }
     }
+
+#pragma warning disable CS8618
+
+    private ClientId()
+    { }
+
+#pragma warning restore CS8618
 }

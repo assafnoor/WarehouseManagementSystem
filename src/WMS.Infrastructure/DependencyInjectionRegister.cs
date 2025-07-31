@@ -1,9 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyApp.Application.Common.Interfaces.Persistence;
+using MyApp.Infrastructure.Persistence.Repositories;
+using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.Services;
 using WMS.Infrastructure.Persistence;
 using WMS.Infrastructure.Persistence.Interceptors;
+using WMS.Infrastructure.Persistence.Repositories;
 using WMS.Infrastructure.Services;
 
 namespace WMS.Infrastructure;
@@ -15,7 +19,7 @@ public static class DependencyInjectionRegister
         ConfigurationManager configuration)
     {
         services
-           .AddPersistance();
+           .AddPersistance(configuration);
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
@@ -23,13 +27,18 @@ public static class DependencyInjectionRegister
     }
 
     public static IServiceCollection AddPersistance(
-        this IServiceCollection services)
+     this IServiceCollection services,
+      IConfiguration configuration)
     {
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
         services.AddDbContext<MyAppDbContext>(options =>
-            options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=myAppTest;Integrated Security=True"));
+            options.UseSqlServer(connectionString));
 
         services.AddScoped<PublishDomainEventsInterceptor>();
-
+        services.AddScoped<IResourceRepository, ResourceRepository>();
+        services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IUnitOfMeasurementRepository, UnitOfMeasurementRepository>();
         return services;
     }
 }

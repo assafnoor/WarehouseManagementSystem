@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
-using MyApp.Application.Common.Interfaces.Persistance;
+using MyApp.Application.Common.Interfaces.Persistence;
 using WMS.Application.Resources.Common;
 using WMS.Domain.Common.ErrorCatalog;
 

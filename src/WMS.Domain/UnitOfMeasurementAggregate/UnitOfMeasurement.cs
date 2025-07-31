@@ -60,4 +60,11 @@ public sealed class UnitOfMeasurement : AggregateRoot<UnitOfMeasurementId, Guid>
 
         return Archive();
     }
+
+#pragma warning disable CS8618
+
+    private UnitOfMeasurement()
+    { }
+
+#pragma warning restore CS8618
 }

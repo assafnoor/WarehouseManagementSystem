@@ -67,4 +67,11 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
 
         return Archive();
     }
+
+#pragma warning disable CS8618
+
+    private Client()
+    { }
+
+#pragma warning restore CS8618
 }
