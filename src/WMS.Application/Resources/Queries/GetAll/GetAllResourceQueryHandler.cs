@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
-using MyApp.Application.Common.Interfaces.Persistence;
+using WMS.Application.Common.Interfaces.Persistence;
 using WMS.Application.Resources.Common;
 
 namespace WMS.Application.Resources.Queries.GetAll;

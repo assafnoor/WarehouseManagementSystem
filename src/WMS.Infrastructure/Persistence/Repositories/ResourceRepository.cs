@@ -1,8 +1,7 @@
 using MyApp.Application.Common.Interfaces.Persistence;
 using WMS.Domain.ResourceAggregate;
-using WMS.Infrastructure.Persistence;
 
-namespace MyApp.Infrastructure.Persistence.Repositories;
+namespace WMS.Infrastructure.Persistence.Repositories;
 
 public sealed class ResourceRepository : IResourceRepository
 {
