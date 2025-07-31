@@ -7,12 +7,12 @@ using WMS.Domain.UnitOfMeasurementAggregate;
 
 namespace WMS.Application.UnitOfMeasurements.Commands.Create;
 
-public partial class CreateUnitOfMeasurementCommandValidator :
+public class CreateUnitOfMeasurementCommandHandler :
     IRequestHandler<CreateUnitOfMeasurementCommand, ErrorOr<UnitOfMeasurementResult>>
 {
     private readonly IUnitOfMeasurementRepository _unitOfMeasurementRepository;
 
-    public CreateUnitOfMeasurementCommandValidator(IUnitOfMeasurementRepository unitOfMeasurementRepository)
+    public CreateUnitOfMeasurementCommandHandler(IUnitOfMeasurementRepository unitOfMeasurementRepository)
     {
         _unitOfMeasurementRepository = unitOfMeasurementRepository;
     }
