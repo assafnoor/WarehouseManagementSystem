@@ -1,3 +1,4 @@
+using Mapster;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -95,14 +96,14 @@ public class ClientsController : ApiController
     }
 
     [HttpGet("GetAll")]
-    public async Task<IActionResult> GetAllClients(GetAllClientsRequest request)
+    public async Task<IActionResult> GetAllClients([FromQuery] GetAllClientsRequest request)
     {
         var query = _mapper.Map<GetAllClientsQuery>(request);
         var result = await _mediator.Send(query);
 
         return result.Match(
-            pagedClients => Ok(_mapper.Map<List<ClientResponse>>(result)),
-            errors => Problem(errors));
+        clients => Ok(clients.Adapt<List<ClientResponse>>()),
+        errors => Problem(errors));
     }
 
     #endregion Query
