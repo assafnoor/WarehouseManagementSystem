@@ -9,6 +9,8 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
 {
     public string Name { get; private set; }
     public bool IsActive { get; private set; }
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
 
     private Resource(
         ResourceId id,
@@ -17,6 +19,8 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
     {
         Name = name;
         IsActive = true;
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public static Resource Create(string name)

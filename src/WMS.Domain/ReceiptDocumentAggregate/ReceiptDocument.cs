@@ -15,12 +15,16 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
 
     private readonly List<ReceiptResource> _receiptResources;
     public IReadOnlyCollection<ReceiptResource> ReceiptResources => _receiptResources.AsReadOnly();
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
 
     private ReceiptDocument(ReceiptDocumentId id, DocumentNumber number, DateTime date) : base(id)
     {
         Number = number;
         Date = date;
         _receiptResources = new List<ReceiptResource>();
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public static ReceiptDocument Create(DocumentNumber number, DateTime date)

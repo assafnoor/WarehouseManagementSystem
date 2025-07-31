@@ -11,12 +11,16 @@ public sealed class Client : AggregateRoot<ClientId, Guid>
     public string Name { get; private set; }
     public Address Address { get; private set; }
     public bool IsActive { get; private set; }
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
 
     private Client(ClientId id, string name, Address address) : base(id)
     {
         Name = name;
         Address = address;
         IsActive = true;
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public static Client Create(string name, Address address)

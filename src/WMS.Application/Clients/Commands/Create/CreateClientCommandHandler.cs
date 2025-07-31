@@ -29,7 +29,7 @@ public class CreateClientCommandHandler :
             return Errors.Client.NameAlreadyExists;
         }
         var client = Client.Create(command.Name,
-        Address.Create(command.address, null, null));
+        Address.CreateNew(command.address, null, null));
         await _clientRepository.AddAsync(client);
         return new ClientResult(client.Id.Value, client.Name);
     }

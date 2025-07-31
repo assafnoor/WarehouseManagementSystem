@@ -15,6 +15,8 @@ public sealed class ShipmentDocument : AggregateRoot<ShipmentDocumentId, Guid>
 
     private readonly List<ShipmentResource> _shipmentResources;
     public IReadOnlyCollection<ShipmentResource> ShipmentResources => _shipmentResources.AsReadOnly();
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
 
     private ShipmentDocument(ShipmentDocumentId id, DocumentNumber number, ClientId clientId, DateTime date) : base(id)
     {
@@ -23,6 +25,8 @@ public sealed class ShipmentDocument : AggregateRoot<ShipmentDocumentId, Guid>
         Date = date;
         Status = ShipmentStatus.Draft;
         _shipmentResources = new List<ShipmentResource>();
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public static ShipmentDocument Create(DocumentNumber number, ClientId clientId, DateTime date)

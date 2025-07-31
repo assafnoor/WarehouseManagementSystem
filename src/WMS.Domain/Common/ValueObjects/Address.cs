@@ -15,7 +15,7 @@ public sealed class Address : ValueObject
         PostalCode = postalCode;
     }
 
-    public static Address Create(string? street, string? city, string? postalCode = null)
+    public static Address CreateNew(string? street, string? city, string? postalCode = null)
     {
         return new Address(street, city, postalCode);
     }
