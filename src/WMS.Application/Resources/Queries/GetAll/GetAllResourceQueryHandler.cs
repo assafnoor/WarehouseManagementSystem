@@ -20,7 +20,7 @@ public class GetAllResourceQueryHandler :
         CancellationToken cancellationToken)
     {
         var resources = await _resourceRepository.GetActiveResourcesAsync();
-        var results = resources.Select(r => new ResourceResult(r.Id.Value, r.Name));
+        var results = resources.Select(r => new ResourceResult(r.Id.Value, r.Name, r.IsActive));
         return results.ToList();
     }
 }

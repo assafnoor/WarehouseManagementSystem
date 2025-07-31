@@ -30,9 +30,6 @@ public class ArchiveUnitOfMeasurementCommandHandler :
         //if (canBeArchived.IsError)
         //    return canBeArchived.Errors;
 
-        if (unitOfMeasurement.IsArchived())
-            return Errors.UnitOfMeasurement.Archived;
-
         var activateResult = unitOfMeasurement.Archive();
         if (activateResult.IsError)
             return activateResult.Errors;

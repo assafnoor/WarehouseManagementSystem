@@ -70,11 +70,11 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
         }
 
         // Apply pagination
-        var clients = await query
+        var unitOfMeasurements = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
-        return clients;
+        return unitOfMeasurements;
     }
 }

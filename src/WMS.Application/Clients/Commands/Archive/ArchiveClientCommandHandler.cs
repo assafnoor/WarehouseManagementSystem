@@ -30,9 +30,6 @@ public class ArchiveClientCommandHandler :
         //if (canBeArchived.IsError)
         //    return canBeArchived.Errors;
 
-        if (client.IsArchived())
-            return Errors.Client.Archived;
-
         var activateResult = client.Archive();
         if (activateResult.IsError)
             return activateResult.Errors;

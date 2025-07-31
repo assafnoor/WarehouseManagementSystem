@@ -34,6 +34,6 @@ public class DeleteResourceCommandHandler :
 
         await _resourceRepository.UpdateAsync(resource);
 
-        return new ResourceResult(resource.Id.Value, resource.Name);
+        return new ResourceResult(resource.Id.Value, resource.Name, resource.IsActive);
     }
 }

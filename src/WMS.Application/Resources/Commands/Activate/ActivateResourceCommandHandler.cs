@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
+using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.Common.Interfaces.Persistence;
 using WMS.Application.Resources.Common;
 using WMS.Domain.Common.ErrorCatalog;
@@ -10,10 +11,12 @@ public class ActivateResourceCommandHandler :
     IRequestHandler<ActivateResourceCommand, ErrorOr<ResourceResult>>
 {
     private readonly IResourceRepository _resourceRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ActivateResourceCommandHandler(IResourceRepository resourceRepository)
+    public ActivateResourceCommandHandler(IResourceRepository resourceRepository, IUnitOfWork unitOfWork)
     {
         _resourceRepository = resourceRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<ResourceResult>> Handle(
@@ -29,7 +32,7 @@ public class ActivateResourceCommandHandler :
             return activateResult.Errors;
 
         await _resourceRepository.UpdateAsync(resource);
-
-        return new ResourceResult(resource.Id.Value, resource.Name);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return new ResourceResult(resource.Id.Value, resource.Name, resource.IsActive);
     }
 }

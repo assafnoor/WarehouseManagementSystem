@@ -1,5 +1,6 @@
 ﻿using ErrorOr;
 using MediatR;
+using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.Common.Interfaces.Persistence;
 using WMS.Application.Resources.Common;
 using WMS.Domain.Common.ErrorCatalog;
@@ -10,10 +11,12 @@ public class UpdateResourceCommandHandler :
     IRequestHandler<UpdateResourceCommand, ErrorOr<ResourceResult>>
 {
     private readonly IResourceRepository _resourceRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateResourceCommandHandler(IResourceRepository resourceRepository)
+    public UpdateResourceCommandHandler(IResourceRepository resourceRepository, IUnitOfWork unitOfWork)
     {
         _resourceRepository = resourceRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<ResourceResult>> Handle(
@@ -34,8 +37,10 @@ public class UpdateResourceCommandHandler :
             return Errors.Resource.NameAlreadyExists;
 
         resource.ChangeName(command.Name);
-        await _resourceRepository.UpdateAsync(resource);
 
-        return new ResourceResult(resource.Id.Value, resource.Name);
+        await _resourceRepository.UpdateAsync(resource);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new ResourceResult(resource.Id.Value, resource.Name, resource.IsActive);
     }
 }

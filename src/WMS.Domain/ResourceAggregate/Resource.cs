@@ -25,12 +25,13 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
 
     public static Resource Create(string name)
     {
-        return new Resource(ResourceId.CreateUnique(), name);
+        return new Resource(ResourceId.CreateUnique(), name.Trim());
     }
 
     public void ChangeName(string name)
     {
         Name = name.Trim();
+        Touch();
     }
 
     public ErrorOr<Success> Archive()
@@ -39,6 +40,7 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
             return Errors.Resource.AlreadyArchived;
 
         IsActive = false;
+        Touch();
         return Result.Success;
     }
 
@@ -48,6 +50,7 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
             return Errors.Resource.AlreadyActive;
 
         IsActive = true;
+        Touch();
         return Result.Success;
     }
 
@@ -61,6 +64,11 @@ public sealed class Resource : AggregateRoot<ResourceId, Guid>
             return Errors.Resource.CannotArchiveInUse;
 
         return Archive();
+    }
+
+    private void Touch()
+    {
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
 #pragma warning disable CS8618
