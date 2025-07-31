@@ -23,11 +23,6 @@ public class GetAllClientsQueryHandler :
         var clients = await _clientRepository.GetAllAsync(query.Status, query.Page, query.PageSize)
             ?? Array.Empty<Client>();
         var results = clients.Select(ClientResult.From).ToList();
-        Console.WriteLine("Fetched Clients:");
-        foreach (var client in results)
-        {
-            Console.WriteLine($"Id: {client.Id}, Name: {client.Name}");
-        }
 
         return results;
     }

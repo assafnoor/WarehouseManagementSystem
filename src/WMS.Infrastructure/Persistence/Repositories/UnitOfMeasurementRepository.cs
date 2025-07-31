@@ -58,4 +58,23 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
         _context.UnitOfMeasurements.Update(unitOfMeasurement);
         return Task.CompletedTask;
     }
+
+    public async Task<IEnumerable<UnitOfMeasurement?>> GetAllAsync(bool? status, int page, int pageSize)
+    {
+        var query = _context.UnitOfMeasurements.AsQueryable();
+
+        // Filter by status if provided
+        if (status.HasValue)
+        {
+            query = query.Where(c => c.IsActive == status.Value);
+        }
+
+        // Apply pagination
+        var clients = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return clients;
+    }
 }

@@ -1,4 +1,5 @@
-﻿using MapsterMapper;
+﻿using Mapster;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WMS.API.Controllers.Common;
@@ -6,6 +7,9 @@ using WMS.Application.UnitOfMeasurements.Commands.Activate;
 using WMS.Application.UnitOfMeasurements.Commands.Archive;
 using WMS.Application.UnitOfMeasurements.Commands.Create;
 using WMS.Application.UnitOfMeasurements.Commands.Update;
+using WMS.Application.UnitOfMeasurements.Queries.GetAll;
+using WMS.Application.UnitOfMeasurements.Queries.GetById;
+using WMS.Contracts.Clients;
 using WMS.Contracts.UnitOfMeasurements;
 
 namespace WMS.API.Controllers
@@ -78,5 +82,32 @@ namespace WMS.API.Controllers
         }
 
         #endregion Command
+
+        #region Query
+
+        [HttpGet("GetById/{Id}")]
+        public async Task<IActionResult> GetByIdUnitOfMeasurement([FromRoute] Guid Id)
+        {
+            var query = _mapper.Map<GetByIdUnitOfMeasurementQuery>(Id);
+
+            var result = await _mediator.Send(query);
+
+            return result.Match(
+                unitOfMeasurement => Ok(_mapper.Map<UnitOfMeasurementResponse>(unitOfMeasurement)),
+                errors => Problem(errors));
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllClients([FromQuery] GetAllClientsRequest request)
+        {
+            var query = _mapper.Map<GetAllUnitOfMeasurementQuery>(request);
+            var result = await _mediator.Send(query);
+
+            return result.Match(
+            unitOfMeasurement => Ok(unitOfMeasurement.Adapt<List<UnitOfMeasurementResponse>>()),
+            errors => Problem(errors));
+        }
+
+        #endregion Query
     }
 }

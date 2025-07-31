@@ -19,4 +19,9 @@ public interface IUnitOfMeasurementRepository
     Task AddAsync(UnitOfMeasurement unitOfMeasurement);
 
     Task UpdateAsync(UnitOfMeasurement unitOfMeasurement);
+
+    Task<IEnumerable<UnitOfMeasurement?>> GetAllAsync(
+        bool? Status,
+        int Page,
+        int PageSize);
 }
