@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using WMS.Application.Common.Interface.Persistence;
 using WMS.Domain.ClientAggregate;
 
@@ -12,9 +13,10 @@ public class ClientRepository : IClientRepository
         _context = context;
     }
 
-    public Task AddAsync(Client resource)
+    public async Task AddAsync(Client client)
     {
-        throw new NotImplementedException();
+        await _context.Clients
+            .AddAsync(client);
     }
 
     public Task<IEnumerable<Client>> GetActiveResourcesAsync()
@@ -37,9 +39,10 @@ public class ClientRepository : IClientRepository
         throw new NotImplementedException();
     }
 
-    public Task<Client?> GetByNameAsync(string name)
+    public async Task<Client?> GetByNameAsync(string name)
     {
-        throw new NotImplementedException();
+        return await _context.Clients
+            .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
 
     public Task<bool> IsResourceUsedInDocumentsAsync(Guid clientId)

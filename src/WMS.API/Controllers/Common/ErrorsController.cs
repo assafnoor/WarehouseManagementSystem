@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using WMS.Application.Common.Errors;
 
-namespace WMS.Api.Controllers;
+namespace WMS.API.Controllers.Common;
 
 internal class ErrorsController : ControllerBase
 {
-    [ApiExplorerSettings(GroupName = "Error")]
     [Route("/error")]
     public IActionResult Error()
     {

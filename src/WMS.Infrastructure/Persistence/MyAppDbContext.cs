@@ -22,7 +22,7 @@ public sealed class MyAppDbContext : DbContext
         _publishDomainEventsInterceptor = publishDomainEventsInterceptor;
     }
 
-    public DbSet<Client> Client { get; set; } = null!;
+    public DbSet<Client> Clients { get; set; } = null!;
     public DbSet<Resource> Resources { get; set; } = null!;
     public DbSet<ReceiptDocument> ReceiptDocuments { get; set; } = null!;
 

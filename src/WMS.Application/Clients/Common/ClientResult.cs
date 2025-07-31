@@ -3,4 +3,11 @@
 public record ClientResult
 (
     Guid Id,
-    string Name);
+    string Name,
+    AddressResult? Address);
+
+public record AddressResult(
+    string Street,
+    string? City,
+    string? PostalCode
+);

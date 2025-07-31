@@ -1,6 +1,16 @@
-@WMS.API_HostAddress = http://localhost:5068
+@WMS.API_HostAddress = https://localhost:7012
 
 GET {{WMS.API_HostAddress}}/weatherforecast/
 Accept: application/json
+
+###
+
+POST {{WMS.API_HostAddress}}/api/clients/Add
+Content-Type: application/json
+
+{
+  "name": "noor",
+  "address": "moscow"
+}
 
 ###

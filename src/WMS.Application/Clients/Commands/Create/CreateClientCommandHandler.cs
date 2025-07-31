@@ -12,10 +12,12 @@ public class CreateClientCommandHandler :
     IRequestHandler<CreateClientCommand, ErrorOr<ClientResult>>
 {
     private readonly IClientRepository _clientRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateClientCommandHandler(IClientRepository clientRepository)
+    public CreateClientCommandHandler(IClientRepository clientRepository, IUnitOfWork unitOfWork)
     {
         _clientRepository = clientRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<ClientResult>> Handle(
@@ -28,9 +30,17 @@ public class CreateClientCommandHandler :
         {
             return Errors.Client.NameAlreadyExists;
         }
+
         var client = Client.Create(command.Name,
         Address.CreateNew(command.address, null, null));
+
         await _clientRepository.AddAsync(client);
-        return new ClientResult(client.Id.Value, client.Name);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return new ClientResult(client.Id.Value, client.Name,
+            new AddressResult(
+                client.Address.Street ?? string.Empty,
+                client.Address.City,
+                client.Address.PostalCode));
     }
 }

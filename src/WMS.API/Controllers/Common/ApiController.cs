@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using WMS.Api.Common.Http;
 
-namespace WMS.Api.Controllers;
+namespace WMS.API.Controllers.Common;
 
 [ApiController]
 public class ApiController : ControllerBase
