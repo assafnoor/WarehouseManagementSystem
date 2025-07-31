@@ -22,17 +22,16 @@ public class ResourceCommandHandler :
         ResourceCommand command,
         CancellationToken cancellationToken)
     {
+        // Check if any resource with this name exists (active or archived)
         var existingResource = await _resourceRepository.GetByNameAsync(command.Name);
         if (existingResource is not null)
         {
             return Errors.Resource.NameAlreadyExists;
         }
+
         var resource = Resource.Create(command.Name);
         await _resourceRepository.AddAsync(resource);
 
-        return new ResourceResult(
-            resource.Id.Value,
-            resource.Name
-            );
+        return new ResourceResult(resource.Id.Value, resource.Name);
     }
 }
