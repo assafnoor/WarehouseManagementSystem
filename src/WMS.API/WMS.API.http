@@ -45,3 +45,12 @@ Content-Type: application/json
 GET {{WMS.API_HostAddress}}/api/clients/GetById/cfac5c84-71bc-4528-9359-e2a0ee5d3510
 
 ###
+
+GET {{WMS.API_HostAddress}}/api/clients/GetAll
+Content-Type: application/json
+
+{
+   "Page": 1,
+   "PageSize" : 10
+}
+###

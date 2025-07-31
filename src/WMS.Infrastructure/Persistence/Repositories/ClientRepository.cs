@@ -27,6 +27,25 @@ public class ClientRepository : IClientRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Client?>> GetAllAsync(bool? status, int page, int pageSize)
+    {
+        var query = _context.Clients.AsQueryable();
+
+        // Filter by status if provided
+        if (status.HasValue)
+        {
+            query = query.Where(c => c.IsActive == status.Value);
+        }
+
+        // Apply pagination
+        var clients = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return clients;
+    }
+
     public async Task<IEnumerable<Client>> GetAllResourcesAsync()
     {
         return await _context.Clients

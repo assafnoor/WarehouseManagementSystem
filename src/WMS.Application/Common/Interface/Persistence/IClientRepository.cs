@@ -16,6 +16,11 @@ public interface IClientRepository
 
     Task<IEnumerable<Client>> GetAllResourcesAsync();
 
+    Task<IEnumerable<Client?>> GetAllAsync(
+        bool? Status,
+        int Page,
+        int PageSize);
+
     Task AddAsync(Client resource);
 
     Task UpdateAsync(Client resource);

@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Clients\Commands\" />
-    <Folder Include="Clients\Queries\" />
     <Folder Include="Common\Errors\FluentResults\" />
     <Folder Include="Resources\Events\" />
     <Folder Include="Resources\Queries\" />

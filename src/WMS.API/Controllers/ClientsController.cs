@@ -6,6 +6,7 @@ using WMS.Application.Clients.Commands.Activate;
 using WMS.Application.Clients.Commands.Archive;
 using WMS.Application.Clients.Commands.Create;
 using WMS.Application.Clients.Commands.Update;
+using WMS.Application.Clients.Queries.GetAll;
 using WMS.Application.Clients.Queries.GetById;
 using WMS.Contracts.Clients;
 
@@ -90,6 +91,17 @@ public class ClientsController : ApiController
 
         return result.Match(
             client => Ok(_mapper.Map<ClientResponse>(client)),
+            errors => Problem(errors));
+    }
+
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAllClients(GetAllClientsRequest request)
+    {
+        var query = _mapper.Map<GetAllClientsQuery>(request);
+        var result = await _mediator.Send(query);
+
+        return result.Match(
+            pagedClients => Ok(_mapper.Map<List<ClientResponse>>(result)),
             errors => Problem(errors));
     }
 
