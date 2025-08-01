@@ -1,4 +1,5 @@
-﻿using WMS.Application.Common.Interface.Persistence;
+﻿using Microsoft.EntityFrameworkCore;
+using WMS.Application.Common.Interface.Persistence;
 using WMS.Domain.BalanceAggregate;
 using WMS.Domain.ResourceAggregate.ValueObjects;
 using WMS.Domain.UnitOfMeasurementAggregate.ValueObjects;
@@ -19,9 +20,12 @@ public class BalanceRepository : IBalanceRepository
         await _context.Balances.AddAsync(balance, cancellationToken);
     }
 
-    public Task<Balance?> GetByResourceAndUnitAsync(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, CancellationToken cancellationToken = default)
+    public async Task<Balance?> GetByResourceAndUnitAsync(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.Balances
+        .FirstOrDefaultAsync(
+            b => b.ResourceId == resourceId && b.UnitOfMeasurementId == unitOfMeasurementId,
+            cancellationToken);
     }
 
     public void Remove(Balance balance)

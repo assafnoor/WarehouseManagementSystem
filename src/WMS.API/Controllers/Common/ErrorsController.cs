@@ -4,7 +4,7 @@ using WMS.Application.Common.Errors;
 
 namespace WMS.API.Controllers.Common;
 
-internal class ErrorsController : ControllerBase
+public class ErrorsController : ControllerBase
 {
     [Route("/error")]
     public IActionResult Error()

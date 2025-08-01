@@ -7,7 +7,7 @@ namespace WMS.Application.ReceiptDocuments.Commands.Create;
 public record CreateReceiptDocumentCommand(
     string DocumentNumber,
     DateTime Date,
-    List<ReceiptResourceCommand> ReceiptResources
+    List<ReceiptResourceCommand>? ReceiptResources
 ) : IRequest<ErrorOr<ReceiptDocumentResult>>;
 
 public record ReceiptResourceCommand(

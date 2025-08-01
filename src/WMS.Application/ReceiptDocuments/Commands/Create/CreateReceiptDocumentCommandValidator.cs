@@ -13,7 +13,10 @@ public class CreateReceiptDocumentCommandValidator : AbstractValidator<CreateRec
         RuleFor(x => x.Date)
             .NotEmpty();
 
-        RuleForEach(x => x.ReceiptResources).SetValidator(new ReceiptResourceCommandValidator());
+        When(x => x.ReceiptResources is not null && x.ReceiptResources.Any(), () =>
+        {
+            RuleForEach(x => x.ReceiptResources!).SetValidator(new ReceiptResourceCommandValidator());
+        });
     }
 }
 

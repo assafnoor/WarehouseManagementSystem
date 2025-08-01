@@ -35,29 +35,34 @@ public class CreateReceiptDocumentCommandHandler :
         {
             return Errors.ReceiptDocument.DuplicateNumber;
         }
-        foreach (var resourceCmd in command.ReceiptResources)
+        if (command.ReceiptResources is not null)
         {
-            var resourceExists = await _resourceRepository.ExistsActiveAsync(ResourceId.Create(resourceCmd.ResourceId));
-            var uomExists = await _unitOfMeasurementRepository.ExistsActiveAsync(UnitOfMeasurementId.Create(resourceCmd.UnitOfMeasurementId));
-            if (!resourceExists || !uomExists)
+            foreach (var resourceCmd in command.ReceiptResources)
             {
-                return Errors.ReceiptDocument.InvalidResource;
+                var resourceExists = await _resourceRepository.ExistsActiveAsync(ResourceId.Create(resourceCmd.ResourceId));
+                var uomExists = await _unitOfMeasurementRepository.ExistsActiveAsync(UnitOfMeasurementId.Create(resourceCmd.UnitOfMeasurementId));
+                if (!resourceExists || !uomExists)
+                {
+                    return Errors.ReceiptDocument.InvalidResource;
+                }
             }
         }
         var receiptDocument = ReceiptDocument.Create(DocumentNumber.CreateNew(command.DocumentNumber), command.Date);
-
-        foreach (var resourceCmd in command.ReceiptResources)
+        if (command.ReceiptResources is not null)
         {
-            var quantity = Quantity.CreateNew(resourceCmd.Quantity);
+            foreach (var resourceCmd in command.ReceiptResources)
+            {
+                var quantity = Quantity.CreateNew(resourceCmd.Quantity);
 
-            if (quantity.IsError)
-                return quantity.Errors;
+                if (quantity.IsError)
+                    return quantity.Errors;
 
-            receiptDocument.AddResource(
-                ResourceId.Create(resourceCmd.ResourceId),
-                UnitOfMeasurementId.Create(resourceCmd.UnitOfMeasurementId),
-                quantity.Value
-                );
+                receiptDocument.AddResource(
+                    ResourceId.Create(resourceCmd.ResourceId),
+                    UnitOfMeasurementId.Create(resourceCmd.UnitOfMeasurementId),
+                    quantity.Value
+                    );
+            }
         }
         await _receiptDocumentRepository.AddAsync(receiptDocument);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

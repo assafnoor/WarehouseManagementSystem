@@ -1,0 +1,58 @@
+@WMS.API_HostAddress = https://localhost:7012
+
+
+
+POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Add
+Content-Type: application/json
+
+{
+  "documentNumber": "daddassdad",
+  "date": "2025-08-01",
+    "receiptResources": [
+    {
+      "resourceId": "1d3c4830-a0dc-464e-a170-e9b23de07dfd",
+      "unitOfMeasurementId": "66c40f6b-f56b-4741-a6d7-5741886bffbd",
+      "quantity": 1
+    }
+  ]
+}
+
+###
+
+POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Archive
+Content-Type: application/json
+
+{
+  "Id":"cfac5c84-71bc-4528-9359-e2a0ee5d3510"
+}
+
+###
+
+POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Update
+Content-Type: application/json
+
+{
+
+  "Id":"cfac5c84-71bc-4528-9359-e2a0ee5d3510",
+   "name": "aaaddaaa",
+   "address": "msoscodasdsaw"
+}
+
+###
+
+POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Activate
+Content-Type: application/json
+
+{
+  "Id":"cfac5c84-71bc-4528-9359-e2a0ee5d3510"
+}
+
+###
+
+GET {{WMS.API_HostAddress}}/api/ReceiptDocuments/GetById/cfac5c84-71bc-4528-9359-e2a0ee5d3510
+
+###
+
+GET {{WMS.API_HostAddress}}/api/ReceiptDocuments/GetAll?Page=1&PageSize=100
+
+###

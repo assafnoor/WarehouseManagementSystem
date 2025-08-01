@@ -39,7 +39,7 @@ namespace WMS.API.Controllers
 
             var result = await _mediator.Send(command);
             return result.Match(
-                result => Ok(_mapper.Map<ReceiptResourceResponse>(result)),
+                receipt => Ok(receipt.Adapt<ReceiptDocumentResponse>()),
                 errors => Problem(errors));
         }
 
