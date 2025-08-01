@@ -52,11 +52,11 @@ public class ResourceQuantityChangedInReceiptEventHandler : INotificationHandler
 
             if (quantityDifference > 0)
             {
-                balance.IncreaseQuantity(Quantity.CreateNew(quantityDifference));
+                balance.IncreaseQuantity(Quantity.CreateNew(quantityDifference).Value);
             }
             else if (quantityDifference < 0)
             {
-                var result = balance.DecreaseQuantity(Quantity.CreateNew(Math.Abs(quantityDifference)));
+                var result = balance.DecreaseQuantity(Quantity.CreateNew(Math.Abs(quantityDifference)).Value);
                 if (result.IsError)
                 {
                     _logger.LogError(
