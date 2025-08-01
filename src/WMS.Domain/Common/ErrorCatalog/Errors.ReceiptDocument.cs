@@ -13,5 +13,9 @@ public partial class Errors
         public static Error InvalidResource => Error.Validation(
            code: "Resource.Invalid",
            description: "One or more resources or units of measurement are invalid or archived.");
+
+        public static Error NotFound => Error.NotFound(
+            code: "ReceiptDocument.NotFound",
+            description: "The specified ReceiptDocument was not found.");
     }
 }

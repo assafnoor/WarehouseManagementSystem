@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using WMS.Application.ReceiptDocuments.Commands.Create;
+using WMS.Application.ReceiptDocuments.Commands.Update;
 using WMS.Application.ReceiptDocuments.Common;
 using WMS.Contracts.ReceiptDocument;
 
@@ -10,6 +11,7 @@ public class ReceiptDocumentMappingConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<AddReceiptDocumentRequest, CreateReceiptDocumentCommand>();
+        config.NewConfig<UpdateReceiptDocumentRequest, UpdateReceiptDocumentCommand>();
 
         config.NewConfig<ReceiptDocumentResult, ReceiptDocumentResponse>();
     }

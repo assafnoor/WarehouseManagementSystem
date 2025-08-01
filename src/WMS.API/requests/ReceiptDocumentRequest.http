@@ -6,7 +6,7 @@ POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Add
 Content-Type: application/json
 
 {
-  "documentNumber": "12",
+  "documentNumber": "121",
   "date": "2025-08-01",
     "receiptResources": [
     {
@@ -23,33 +23,30 @@ Content-Type: application/json
 }
 
 ###
-
-POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Archive
-Content-Type: application/json
-
-{
-  "Id":"cfac5c84-71bc-4528-9359-e2a0ee5d3510"
-}
-
-###
-
 POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Update
 Content-Type: application/json
 
-{
-
-  "Id":"cfac5c84-71bc-4528-9359-e2a0ee5d3510",
-   "name": "aaaddaaa",
-   "address": "msoscodasdsaw"
+{ 
+  "id": "3ebff4b7-8de5-41bd-9c7a-0995432c592f",
+  "documentNumber": "1a22",
+  "date": "2025-08-01",
+    "receiptResources": [
+    {
+      "resourceId": "1d3c4830-a0dc-464e-a170-e9b23de07dfd",
+      "unitOfMeasurementId": "66c40f6b-f56b-4741-a6d7-5741886bffbd",
+      "quantity": 5
+    },
+    {
+    "resourceId": "1d3c4830-a0dc-464e-a170-e9b23de07dfd",
+    "unitOfMeasurementId": "66c40f6b-f56b-4741-a6d7-5741886bffbd",
+    "quantity": 4
+    },
+    {
+"resourceId": "1d3c4830-a0dc-464e-a170-e9b23de07dfd",
+"unitOfMeasurementId": "66c40f6b-f56b-4741-a6d7-5741886bffbd",
+"quantity": 4
 }
-
-###
-
-POST {{WMS.API_HostAddress}}/api/ReceiptDocuments/Activate
-Content-Type: application/json
-
-{
-  "Id":"cfac5c84-71bc-4528-9359-e2a0ee5d3510"
+  ]
 }
 
 ###

@@ -4,9 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WMS.API.Controllers.Common;
 using WMS.Application.ReceiptDocuments.Commands.Create;
-using WMS.Application.Resources.Commands.Activate;
-using WMS.Application.Resources.Commands.Archive;
-using WMS.Application.Resources.Commands.Update;
+using WMS.Application.ReceiptDocuments.Commands.Update;
 using WMS.Application.Resources.Queries.GetAll;
 using WMS.Application.Resources.Queries.GetById;
 using WMS.Contracts.Clients;
@@ -43,42 +41,16 @@ namespace WMS.API.Controllers
                 errors => Problem(errors));
         }
 
-        [HttpPost("Archive")]
-        public async Task<IActionResult> ArchiveResource(
-        ArchiveResourceRequest request
-        )
-        {
-            var command = _mapper.Map<ArchiveResourceCommand>((request));
-
-            var result = await _mediator.Send(command);
-            return result.Match(
-                resource => Ok(_mapper.Map<ResourceResponse>(resource)),
-                errors => Problem(errors));
-        }
-
-        [HttpPost("Activate")]
-        public async Task<IActionResult> ActivateResource(
-        ActivateResourceRequest request
-        )
-        {
-            var command = _mapper.Map<ActivateResourceCommand>((request));
-
-            var result = await _mediator.Send(command);
-            return result.Match(
-                resource => Ok(_mapper.Map<ResourceResponse>(resource)),
-                errors => Problem(errors));
-        }
-
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateResource(
-             UpdateResourceRequest request
+             UpdateReceiptDocumentRequest request
             )
         {
-            var command = _mapper.Map<UpdateResourceCommand>((request));
+            var command = _mapper.Map<UpdateReceiptDocumentCommand>((request));
 
             var result = await _mediator.Send(command);
             return result.Match(
-                resource => Ok(_mapper.Map<ResourceResponse>(resource)),
+                resource => Ok(_mapper.Map<ReceiptDocumentResponse>(resource)),
                 errors => Problem(errors));
         }
 

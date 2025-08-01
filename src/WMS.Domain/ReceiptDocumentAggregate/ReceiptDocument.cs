@@ -94,6 +94,24 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
         Touch();
     }
 
+    public void ChangeNumber(DocumentNumber newNumber)
+    {
+        Number = newNumber;
+        Touch();
+    }
+
+    public void ChangeDate(DateTime newDate)
+    {
+        Date = newDate;
+        Touch();
+    }
+
+    public void ClearResources()
+    {
+        _receiptResources.Clear();
+        Touch();
+    }
+
     private void Touch()
     {
         UpdatedDateTime = DateTime.UtcNow;

@@ -6,7 +6,7 @@ POST {{WMS.API_HostAddress}}/api/Resources/Add
 Content-Type: application/json
 
 {
-  "name": "sssssdassssll"
+  "name": "sssssdasasasssll"
 }
 
 ###

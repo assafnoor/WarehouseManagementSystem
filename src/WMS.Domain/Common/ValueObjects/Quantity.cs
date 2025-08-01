@@ -12,7 +12,7 @@ public sealed class Quantity : ValueObject
     private Quantity(decimal value)
     {
         // CA1062: Validate parameter 'other' is non-null
-        if (value < 0)
+        if (value <= 0)
             throw new ArgumentException("Quantity cannot be negative", nameof(value));
 
         Value = value;
@@ -20,7 +20,7 @@ public sealed class Quantity : ValueObject
 
     public static ErrorOr<Quantity> CreateNew(decimal value)
     {
-        if (value < 0)
+        if (value <= 0)
             return Errors.Quantity.NegativeValue;
 
         return new Quantity(value);
@@ -35,7 +35,7 @@ public sealed class Quantity : ValueObject
         {
             throw new ArgumentNullException(nameof(other), "The 'other' quantity cannot be null.");
         }
-        if (other.Value < 0)
+        if (other.Value <= 0)
             return Errors.Quantity.NegativeValue;
 
         return new Quantity(Value + other.Value);
@@ -48,7 +48,7 @@ public sealed class Quantity : ValueObject
         {
             throw new ArgumentNullException(nameof(other), "The 'other' quantity cannot be null.");
         }
-        if (other.Value < 0 || Value < other.Value)
+        if (other.Value <= 0 || Value < other.Value)
             return Errors.Quantity.NegativeValue;
 
         return new Quantity(Value - other.Value);
