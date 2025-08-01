@@ -3,6 +3,7 @@ using MediatR;
 using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.Resources.Common;
 using WMS.Domain.Common.ErrorCatalog;
+using WMS.Domain.ResourceAggregate.ValueObjects;
 
 namespace WMS.Application.Resources.Queries.GetById;
 
@@ -20,7 +21,7 @@ public class GetByIdResourceQueryHandler :
         GetByIdResourceQuery query,
         CancellationToken cancellationToken)
     {
-        var resource = await _resourceRepository.GetByIdAsync(query.Id);
+        var resource = await _resourceRepository.GetByIdAsync(ResourceId.Create(query.Id));
 
         if (resource is null)
             return Errors.Resource.NotFound;

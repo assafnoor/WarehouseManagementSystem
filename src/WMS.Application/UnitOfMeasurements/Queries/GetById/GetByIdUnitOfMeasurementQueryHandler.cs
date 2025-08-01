@@ -3,6 +3,7 @@ using MediatR;
 using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.UnitOfMeasurements.Common;
 using WMS.Domain.Common.ErrorCatalog;
+using WMS.Domain.UnitOfMeasurementAggregate.ValueObjects;
 
 namespace WMS.Application.UnitOfMeasurements.Queries.GetById;
 
@@ -20,7 +21,7 @@ public class GetByIdUnitOfMeasurementQueryHandler :
         GetByIdUnitOfMeasurementQuery query,
         CancellationToken cancellationToken)
     {
-        var unitOfMeasurement = await _unitOfMeasurementRepository.GetByIdAsync(query.Id);
+        var unitOfMeasurement = await _unitOfMeasurementRepository.GetByIdAsync(UnitOfMeasurementId.Create(query.Id));
 
         if (unitOfMeasurement is null)
             return Errors.UnitOfMeasurement.NotFound;

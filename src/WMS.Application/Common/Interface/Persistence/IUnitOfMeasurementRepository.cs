@@ -1,20 +1,21 @@
 ﻿using WMS.Domain.UnitOfMeasurementAggregate;
+using WMS.Domain.UnitOfMeasurementAggregate.ValueObjects;
 
 namespace WMS.Application.Common.Interface.Persistence;
 
 public interface IUnitOfMeasurementRepository
 {
-    Task<UnitOfMeasurement?> GetByIdAsync(Guid unitOfMeasurementId);
+    Task<UnitOfMeasurement?> GetByIdAsync(UnitOfMeasurementId unitOfMeasurementId);
 
     Task<UnitOfMeasurement?> GetByNameAsync(string name);
 
-    Task<bool> IsResourceUsedInDocumentsAsync(Guid unitOfMeasurementId);
+    Task<bool> IsUsedInDocumentsAsync(UnitOfMeasurementId unitOfMeasurementId);
 
-    Task<IEnumerable<UnitOfMeasurement>> GetActiveResourcesAsync();
+    Task<IEnumerable<UnitOfMeasurement>> GetActiveAsync();
 
-    Task<IEnumerable<UnitOfMeasurement>> GetArchivedResourcesAsync();
+    Task<IEnumerable<UnitOfMeasurement>> GetArchivedAsync();
 
-    Task<IEnumerable<UnitOfMeasurement>> GetAllResourcesAsync();
+    Task<IEnumerable<UnitOfMeasurement>> GetAllAsync();
 
     Task AddAsync(UnitOfMeasurement unitOfMeasurement);
 
@@ -25,5 +26,5 @@ public interface IUnitOfMeasurementRepository
         int Page,
         int PageSize);
 
-    Task<bool> ExistsActiveAsync(Guid unitOfMeasurementId);
+    Task<bool> ExistsActiveAsync(UnitOfMeasurementId unitOfMeasurementId);
 }

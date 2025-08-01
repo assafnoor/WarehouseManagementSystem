@@ -1,20 +1,21 @@
 using WMS.Domain.ResourceAggregate;
+using WMS.Domain.ResourceAggregate.ValueObjects;
 
 namespace WMS.Application.Common.Interface.Persistence;
 
 public interface IResourceRepository
 {
-    Task<Resource?> GetByIdAsync(Guid resourceId);
+    Task<Resource?> GetByIdAsync(ResourceId resourceId);
 
     Task<Resource?> GetByNameAsync(string name);
 
-    Task<bool> IsResourceUsedInDocumentsAsync(Guid resourceId);
+    Task<bool> IsUsedInDocumentsAsync(ResourceId resourceId);
 
-    Task<IEnumerable<Resource>> GetActiveResourcesAsync();
+    Task<IEnumerable<Resource>> GetActiveAsync();
 
-    Task<IEnumerable<Resource>> GetArchivedResourcesAsync();
+    Task<IEnumerable<Resource>> GetArchivedAsync();
 
-    Task<IEnumerable<Resource>> GetAllResourcesAsync();
+    Task<IEnumerable<Resource>> GetAllAsync();
 
     Task AddAsync(Resource resource);
 
@@ -25,5 +26,5 @@ public interface IResourceRepository
     int Page,
     int PageSize);
 
-    Task<bool> ExistsActiveAsync(Guid resourceId);
+    Task<bool> ExistsActiveAsync(ResourceId resourceId);
 }

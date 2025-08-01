@@ -2,6 +2,7 @@
 using MediatR;
 using WMS.Application.Clients.Common;
 using WMS.Application.Common.Interface.Persistence;
+using WMS.Domain.ClientAggregate.ValueObjects;
 using WMS.Domain.Common.ErrorCatalog;
 
 namespace WMS.Application.Clients.Commands.Activate;
@@ -22,7 +23,7 @@ public class ActivateClientCommandHandler :
     ActivateClientCommand command,
         CancellationToken cancellationToken)
     {
-        var client = await _clientRepository.GetByIdAsync(command.Id);
+        var client = await _clientRepository.GetByIdAsync(ClientId.Create(command.Id));
         if (client is null)
             return Errors.Client.NotFound;
 

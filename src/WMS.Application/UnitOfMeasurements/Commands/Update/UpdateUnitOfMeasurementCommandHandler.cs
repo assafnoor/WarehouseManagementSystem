@@ -3,6 +3,7 @@ using MediatR;
 using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.UnitOfMeasurements.Common;
 using WMS.Domain.Common.ErrorCatalog;
+using WMS.Domain.UnitOfMeasurementAggregate.ValueObjects;
 
 namespace WMS.Application.UnitOfMeasurements.Commands.Update;
 
@@ -22,7 +23,7 @@ public class UpdateUnitOfMeasurementCommandHandler :
     UpdateUnitOfMeasurementCommand command,
         CancellationToken cancellationToken)
     {
-        var unitOfMeasurement = await _unitOfMeasurementRepository.GetByIdAsync(command.Id);
+        var unitOfMeasurement = await _unitOfMeasurementRepository.GetByIdAsync(UnitOfMeasurementId.Create(command.Id));
         if (unitOfMeasurement is null)
             return Errors.UnitOfMeasurement.NotFound;
 

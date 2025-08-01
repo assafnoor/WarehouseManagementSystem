@@ -20,26 +20,25 @@ public sealed class ResourceRepository : IResourceRepository
             .AddAsync(resource);
     }
 
-    public Task<IEnumerable<Resource>> GetActiveResourcesAsync()
+    public Task<IEnumerable<Resource>> GetActiveAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Resource>> GetAllResourcesAsync()
+    public Task<IEnumerable<Resource>> GetAllAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Resource>> GetArchivedResourcesAsync()
+    public Task<IEnumerable<Resource>> GetArchivedAsync()
     {
         throw new NotImplementedException();
     }
 
-    public async Task<Resource?> GetByIdAsync(Guid resourceId)
+    public async Task<Resource?> GetByIdAsync(ResourceId resourceId)
     {
-        var id = ResourceId.Create(resourceId);
         return await _context.Resources
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == resourceId);
     }
 
     public async Task<Resource?> GetByNameAsync(string name)
@@ -48,7 +47,7 @@ public sealed class ResourceRepository : IResourceRepository
             .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
 
-    public Task<bool> IsResourceUsedInDocumentsAsync(Guid resourceId)
+    public Task<bool> IsUsedInDocumentsAsync(ResourceId resourceId)
     {
         throw new NotImplementedException();
     }
@@ -76,5 +75,11 @@ public sealed class ResourceRepository : IResourceRepository
             .ToListAsync();
 
         return resources;
+    }
+
+    public async Task<bool> ExistsActiveAsync(ResourceId resourceId)
+    {
+        return await _context.Resources
+            .AnyAsync(r => r.Id == resourceId && r.IsActive);
     }
 }

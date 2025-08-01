@@ -3,6 +3,7 @@ using MediatR;
 using WMS.Application.Common.Interface.Persistence;
 using WMS.Application.Resources.Common;
 using WMS.Domain.Common.ErrorCatalog;
+using WMS.Domain.ResourceAggregate.ValueObjects;
 
 namespace WMS.Application.Resources.Commands.Update;
 
@@ -22,7 +23,7 @@ public class UpdateResourceCommandHandler :
         UpdateResourceCommand command,
         CancellationToken cancellationToken)
     {
-        var resource = await _resourceRepository.GetByIdAsync(command.Id);
+        var resource = await _resourceRepository.GetByIdAsync(ResourceId.Create(command.Id));
         if (resource is null)
             return Errors.Resource.NotFound;
 

@@ -20,26 +20,25 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
             .AddAsync(unitOfMeasurement);
     }
 
-    public Task<IEnumerable<UnitOfMeasurement>> GetActiveResourcesAsync()
+    public Task<IEnumerable<UnitOfMeasurement>> GetActiveAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UnitOfMeasurement>> GetAllResourcesAsync()
+    public Task<IEnumerable<UnitOfMeasurement>> GetAllAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<UnitOfMeasurement>> GetArchivedResourcesAsync()
+    public Task<IEnumerable<UnitOfMeasurement>> GetArchivedAsync()
     {
         throw new NotImplementedException();
     }
 
-    public async Task<UnitOfMeasurement?> GetByIdAsync(Guid unitOfMeasurementId)
+    public async Task<UnitOfMeasurement?> GetByIdAsync(UnitOfMeasurementId unitOfMeasurementId)
     {
-        var id = UnitOfMeasurementId.Create(unitOfMeasurementId);
         return await _context.UnitOfMeasurements
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == unitOfMeasurementId);
     }
 
     public async Task<UnitOfMeasurement?> GetByNameAsync(string name)
@@ -48,7 +47,7 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
             .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
 
-    public Task<bool> IsResourceUsedInDocumentsAsync(Guid unitOfMeasurementId)
+    public Task<bool> IsUsedInDocumentsAsync(UnitOfMeasurementId unitOfMeasurementId)
     {
         throw new NotImplementedException();
     }
@@ -76,5 +75,11 @@ public class UnitOfMeasurementRepository : IUnitOfMeasurementRepository
             .ToListAsync();
 
         return unitOfMeasurements;
+    }
+
+    public async Task<bool> ExistsActiveAsync(UnitOfMeasurementId unitOfMeasurementId)
+    {
+        return await _context.UnitOfMeasurements
+            .AnyAsync(r => r.Id == unitOfMeasurementId && r.IsActive);
     }
 }

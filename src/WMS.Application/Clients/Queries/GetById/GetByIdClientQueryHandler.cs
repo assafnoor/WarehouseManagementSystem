@@ -2,6 +2,7 @@
 using MediatR;
 using WMS.Application.Clients.Common;
 using WMS.Application.Common.Interface.Persistence;
+using WMS.Domain.ClientAggregate.ValueObjects;
 using WMS.Domain.Common.ErrorCatalog;
 
 namespace WMS.Application.Clients.Queries.GetById;
@@ -20,7 +21,7 @@ public class GetByIdClientQueryHandler :
         GetByIdClientQuery query,
         CancellationToken cancellationToken)
     {
-        var client = await _clientRepository.GetByIdAsync(query.Id);
+        var client = await _clientRepository.GetByIdAsync(ClientId.Create(query.Id));
 
         if (client is null)
             return Errors.Client.NotFound;

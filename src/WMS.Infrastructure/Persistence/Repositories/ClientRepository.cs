@@ -20,7 +20,7 @@ public class ClientRepository : IClientRepository
             .AddAsync(client);
     }
 
-    public async Task<IEnumerable<Client>> GetActiveResourcesAsync()
+    public async Task<IEnumerable<Client>> GetActiveAsync()
     {
         return await _context.Clients
             .Where(c => c.IsActive)
@@ -46,24 +46,23 @@ public class ClientRepository : IClientRepository
         return clients;
     }
 
-    public async Task<IEnumerable<Client>> GetAllResourcesAsync()
+    public async Task<IEnumerable<Client>> GetAllAsync()
     {
         return await _context.Clients
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Client>> GetArchivedResourcesAsync()
+    public async Task<IEnumerable<Client>> GetArchivedAsync()
     {
         return await _context.Clients
             .Where(c => !c.IsActive)
             .ToListAsync();
     }
 
-    public async Task<Client?> GetByIdAsync(Guid clientId)
+    public async Task<Client?> GetByIdAsync(ClientId clientId)
     {
-        var id = ClientId.Create(clientId);
         return await _context.Clients
-            .FirstOrDefaultAsync(c => c.Id == id);
+            .FirstOrDefaultAsync(c => c.Id == clientId);
     }
 
     public async Task<Client?> GetByNameAsync(string name)
@@ -72,7 +71,7 @@ public class ClientRepository : IClientRepository
             .FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
 
-    public async Task<bool> IsResourceUsedInDocumentsAsync(Guid clientId)
+    public async Task<bool> IsUsedInDocumentsAsync(ClientId clientId)
     {
         // Placeholder: Replace with actual document check
         return await Task.FromResult(false);

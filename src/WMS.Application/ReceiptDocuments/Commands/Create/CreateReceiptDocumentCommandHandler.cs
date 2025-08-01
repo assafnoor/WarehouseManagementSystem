@@ -30,15 +30,15 @@ public class CreateReceiptDocumentCommandHandler :
         CreateReceiptDocumentCommand command,
         CancellationToken cancellationToken)
     {
-        var exists = await _receiptDocumentRepository.ExistsByNumberAsync(command.DocumentNumber);
+        var exists = await _receiptDocumentRepository.ExistsByNumberAsync(DocumentNumber.CreateNew(command.DocumentNumber));
         if (exists)
         {
             return Errors.ReceiptDocument.DuplicateNumber;
         }
         foreach (var resourceCmd in command.ReceiptResources)
         {
-            var resourceExists = await _resourceRepository.ExistsActiveAsync(resourceCmd.ResourceId);
-            var uomExists = await _unitOfMeasurementRepository.ExistsActiveAsync(resourceCmd.UnitOfMeasurementId);
+            var resourceExists = await _resourceRepository.ExistsActiveAsync(ResourceId.Create(resourceCmd.ResourceId));
+            var uomExists = await _unitOfMeasurementRepository.ExistsActiveAsync(UnitOfMeasurementId.Create(resourceCmd.UnitOfMeasurementId));
             if (!resourceExists || !uomExists)
             {
                 return Errors.ReceiptDocument.InvalidResource;

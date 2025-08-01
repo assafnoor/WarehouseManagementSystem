@@ -1,27 +1,28 @@
 ﻿using WMS.Domain.ClientAggregate;
+using WMS.Domain.ClientAggregate.ValueObjects;
 
 namespace WMS.Application.Common.Interface.Persistence;
 
 public interface IClientRepository
 {
-    Task<Client?> GetByIdAsync(Guid clientId);
+    Task<Client?> GetByIdAsync(ClientId clientId);
 
     Task<Client?> GetByNameAsync(string name);
 
-    Task<bool> IsResourceUsedInDocumentsAsync(Guid clientId);
+    Task<bool> IsUsedInDocumentsAsync(ClientId clientId);
 
-    Task<IEnumerable<Client>> GetActiveResourcesAsync();
+    Task<IEnumerable<Client>> GetActiveAsync();
 
-    Task<IEnumerable<Client>> GetArchivedResourcesAsync();
+    Task<IEnumerable<Client>> GetArchivedAsync();
 
-    Task<IEnumerable<Client>> GetAllResourcesAsync();
+    Task<IEnumerable<Client>> GetAllAsync();
 
     Task<IEnumerable<Client?>> GetAllAsync(
         bool? Status,
         int Page,
         int PageSize);
 
-    Task AddAsync(Client resource);
+    Task AddAsync(Client client);
 
-    Task UpdateAsync(Client resource);
+    Task UpdateAsync(Client client);
 }
