@@ -37,6 +37,7 @@ public sealed class Balance : AggregateRoot<BalanceId, Guid>
             return result.Errors;
 
         Quantity = result.Value;
+        Touch();
         return Result.Updated;
     }
 
@@ -47,12 +48,18 @@ public sealed class Balance : AggregateRoot<BalanceId, Guid>
             return result.Errors;
 
         Quantity = result.Value;
+        Touch();
         return Result.Updated;
     }
 
     public bool HasSufficientQuantity(Quantity requiredQuantity)
     {
         return !Quantity.IsLessThan(requiredQuantity);
+    }
+
+    private void Touch()
+    {
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
 #pragma warning disable CS8618

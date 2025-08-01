@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Balances\Commands\" />
+    <Folder Include="Balances\Queries\" />
     <Folder Include="Clients\Commands\" />
     <Folder Include="Common\Errors\FluentResults\" />
     <Folder Include="Resources\Events\" />

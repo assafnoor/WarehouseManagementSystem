@@ -33,7 +33,7 @@ public record ${commandName}(
 @"
 using ErrorOr;
 using MediatR;
-using MyApp.Application.Common.Interfaces.Persistance;
+using WMS.Application.Common.Interface.Persistance;
 using WMS.Application.${Entity}s.Common;
 using WMS.Domain.Common.ErrorCatalog;
 using WMS.Domain.${Entity}Aggregate;
@@ -44,10 +44,11 @@ public class ${handlerName} :
     IRequestHandler<${commandName}, ErrorOr<${Entity}Result>>
 {
     private readonly I${Entity}Repository _$variableName`Repository;
-
-    public ${handlerName}(I${Entity}Repository $variableName`Repository)
+    private readonly IUnitOfWork _unitOfWork;
+    public ${handlerName}(I${Entity}Repository $variableName`Repository , IUnitOfWork unitOfWork)
     {
         _$variableName`Repository = $variableName`Repository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<${Entity}Result>> Handle(
