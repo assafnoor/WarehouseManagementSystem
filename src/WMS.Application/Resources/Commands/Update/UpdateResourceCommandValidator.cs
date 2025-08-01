@@ -9,7 +9,8 @@ public class UpdateResourceCommandValidator : AbstractValidator<UpdateResourceCo
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(255);
+            .MaximumLength(255)
+               .Must(name => name == name.Trim());
 
         RuleFor(x => x.Id).NotEmpty();
     }

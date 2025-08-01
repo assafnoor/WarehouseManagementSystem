@@ -2,7 +2,7 @@
 using WMS.Application.Resources.Commands.Create;
 using Xunit;
 
-namespace WMS.Application.UnitTest;
+namespace WMS.Application.UnitTest.Resources.Command;
 
 public class ResourceCommandValidatorTests
 {

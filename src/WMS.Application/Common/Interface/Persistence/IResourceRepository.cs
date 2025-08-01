@@ -24,4 +24,6 @@ public interface IResourceRepository
     bool? Status,
     int Page,
     int PageSize);
+
+    Task<bool> ExistsActiveAsync(Guid resourceId);
 }

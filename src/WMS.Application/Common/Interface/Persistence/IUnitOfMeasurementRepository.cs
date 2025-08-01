@@ -24,4 +24,6 @@ public interface IUnitOfMeasurementRepository
         bool? Status,
         int Page,
         int PageSize);
+
+    Task<bool> ExistsActiveAsync(Guid unitOfMeasurementId);
 }

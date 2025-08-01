@@ -49,7 +49,7 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
         _receiptResources.Add(receiptResource);
 
         AddDomainEvent(new ResourceAddedToReceiptEvent(Id, resourceId, unitOfMeasurementId, quantity));
-
+        Touch();
         return receiptResource;
     }
 
@@ -65,6 +65,7 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
         _receiptResources.Remove(resource);
 
         AddDomainEvent(new ResourceRemovedFromReceiptEvent(Id, resourceId, unitOfMeasurementId, oldQuantity));
+        Touch();
     }
 
     public void UpdateResourceQuantity(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, Quantity newQuantity)
@@ -73,17 +74,24 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
             .FirstOrDefault(r => r.ResourceId.Equals(resourceId) && r.UnitOfMeasurementId.Equals(unitOfMeasurementId));
 
         if (resource is null)
-            throw new InvalidOperationException("Resource not found in receipt");
+            throw new InvalidOperationException(message: "Resource not found in receipt");
 
         var oldQuantity = resource.Quantity;
         resource.ChangeQuantity(newQuantity);
 
         AddDomainEvent(new ResourceQuantityChangedInReceiptEvent(Id, resourceId, unitOfMeasurementId, oldQuantity, newQuantity));
+        Touch();
     }
 
     public void MarkAsDeleted()
     {
         AddDomainEvent(new ReceiptDocumentDeletedEvent(Id, ReceiptResources.ToList()));
+        Touch();
+    }
+
+    private void Touch()
+    {
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
 #pragma warning disable CS8618

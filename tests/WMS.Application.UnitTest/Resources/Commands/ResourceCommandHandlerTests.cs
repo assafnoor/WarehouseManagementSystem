@@ -6,7 +6,7 @@ using WMS.Domain.Common.ErrorCatalog;
 using WMS.Domain.ResourceAggregate;
 using Xunit;
 
-namespace WMS.Application.UnitTest;
+namespace WMS.Application.UnitTest.Resources.Command;
 
 public class ResourceCommandHandlerTests
 {

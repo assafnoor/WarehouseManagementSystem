@@ -11,6 +11,7 @@ public sealed class Quantity : ValueObject
 
     private Quantity(decimal value)
     {
+        // CA1062: Validate parameter 'other' is non-null
         if (value < 0)
             throw new ArgumentException("Quantity cannot be negative", nameof(value));
 

@@ -6,8 +6,5 @@ public class CreateBalanceCommandValidator : AbstractValidator<CreateBalanceComm
 {
     public CreateBalanceCommandValidator()
     {
-        RuleFor(x => x.Name)
-            .NotEmpty()
-            .MaximumLength(255);
     }
 }

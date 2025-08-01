@@ -8,7 +8,8 @@ public class CreateClientCommandValidator : AbstractValidator<CreateClientComman
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(255);
+            .MaximumLength(255)
+               .Must(name => name == name.Trim());
         RuleFor(x => x.address)
             .NotEmpty()
             .MaximumLength(255);
