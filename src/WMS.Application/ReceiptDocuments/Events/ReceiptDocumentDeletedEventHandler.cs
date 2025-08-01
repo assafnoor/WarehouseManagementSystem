@@ -29,7 +29,6 @@ public class ReceiptDocumentDeletedEventHandler : INotificationHandler<ReceiptDo
 
         try
         {
-            // Process each resource that was in the deleted receipt
             foreach (var receiptResource in notification.ReceiptResources)
             {
                 var balance = await _balanceRepository.GetByResourceAndUnitAsync(
@@ -46,17 +45,19 @@ public class ReceiptDocumentDeletedEventHandler : INotificationHandler<ReceiptDo
                     continue;
                 }
 
-                // Subtract the quantity that was in the deleted receipt
-                var result = balance.IncreaseQuantity(receiptResource.Quantity);
+                // ⚠️ Decrease quantity because we are deleting a receipt
+                var result = balance.DecreaseQuantity(receiptResource.Quantity);
                 if (result.IsError)
                 {
                     _logger.LogError(
-                        "Failed to subtract quantity from balance: {Error}",
+                        "Cannot delete receipt: insufficient balance for Resource {ResourceId}, UoM {UnitOfMeasurementId}. Error: {Error}",
+                        receiptResource.ResourceId,
+                        receiptResource.UnitOfMeasurementId,
                         result.FirstError.Description);
-                    throw new InvalidOperationException($"Failed to update balance: {result.FirstError.Description}");
+
+                    throw new InvalidOperationException($"Cannot delete receipt: {result.FirstError.Description}");
                 }
 
-                // If balance becomes zero, optionally remove it
                 if (balance.Quantity.Value == 0)
                 {
                     _balanceRepository.Remove(balance);

@@ -15,4 +15,6 @@ public interface IReceiptDocumentRepository
     Task<bool> ExistsByNumberAsync(DocumentNumber documentNumber, ReceiptDocumentId excludeId);
 
     void Update(ReceiptDocument receiptDocument);
+
+    void Remove(ReceiptDocument receiptDocument);
 }

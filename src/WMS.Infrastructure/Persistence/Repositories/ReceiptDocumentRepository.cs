@@ -44,4 +44,9 @@ public class ReceiptDocumentRepository : IReceiptDocumentRepository
     {
         _context.ReceiptDocuments.Update(receiptDocument);
     }
+
+    public void Remove(ReceiptDocument receiptDocument)
+    {
+        _context.ReceiptDocuments.Remove(receiptDocument);
+    }
 }
