@@ -9,7 +9,7 @@ public class ReceiptDocumentMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CreateReceiptDocumentRequest, CreateReceiptDocumentCommand>();
+        config.NewConfig<AddReceiptDocumentRequest, CreateReceiptDocumentCommand>();
 
         config.NewConfig<ReceiptDocumentResult, ReceiptDocumentResponse>();
     }

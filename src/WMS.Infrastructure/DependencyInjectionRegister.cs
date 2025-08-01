@@ -37,6 +37,8 @@ public static class DependencyInjectionRegister
         services.AddScoped<IResourceRepository, ResourceRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IUnitOfMeasurementRepository, UnitOfMeasurementRepository>();
+        services.AddScoped<IBalanceRepository, BalanceRepository>();
+        services.AddScoped<IReceiptDocumentRepository, ReceiptDocumentRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }

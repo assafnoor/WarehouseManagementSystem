@@ -1,11 +1,11 @@
 ﻿namespace WMS.Contracts.ReceiptDocument;
 
-public record CreateReceiptDocumentRequest(
+public record AddReceiptDocumentRequest(
   string DocumentNumber,
   DateTime Date,
-  List<ReceiptResourceRequest> ReceiptResources);
+  List<AddReceiptResourceRequest> ReceiptResources);
 
-public record ReceiptResourceRequest(
+public record AddReceiptResourceRequest(
   Guid ResourceId,
   Guid UnitOfMeasurementId,
   decimal Quantity);

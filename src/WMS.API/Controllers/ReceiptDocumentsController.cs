@@ -3,13 +3,14 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WMS.API.Controllers.Common;
+using WMS.Application.ReceiptDocuments.Commands.Create;
 using WMS.Application.Resources.Commands.Activate;
 using WMS.Application.Resources.Commands.Archive;
-using WMS.Application.Resources.Commands.Create;
 using WMS.Application.Resources.Commands.Update;
 using WMS.Application.Resources.Queries.GetAll;
 using WMS.Application.Resources.Queries.GetById;
 using WMS.Contracts.Clients;
+using WMS.Contracts.ReceiptDocument;
 using WMS.Contracts.UnitOfMeasurements.Resources;
 
 namespace WMS.API.Controllers
@@ -30,15 +31,15 @@ namespace WMS.API.Controllers
         #region Command
 
         [HttpPost("Add")]
-        public async Task<IActionResult> CreateResourcesController(
-            AddResourceRequest request
+        public async Task<IActionResult> CreateReceiptDocumentController(
+            AddReceiptDocumentRequest request
             )
         {
-            var command = _mapper.Map<ResourceCommand>((request));
+            var command = _mapper.Map<CreateReceiptDocumentCommand>((request));
 
             var result = await _mediator.Send(command);
             return result.Match(
-                resource => Ok(_mapper.Map<ResourceResponse>(resource)),
+                result => Ok(_mapper.Map<ReceiptResourceResponse>(result)),
                 errors => Problem(errors));
         }
 
