@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentAssertions" />
+		<PackageReference Include="Moq" />
+		<PackageReference Include="xunit" />
+		<PackageReference Include="xunit.runner.visualstudio" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="coverlet.collector" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\src\WMS.Application\WMS.Application.csproj" />
+	  <ProjectReference Include="..\..\src\WMS.Domain\WMS.Domain.csproj" />
+	  <ProjectReference Include="..\..\src\WMS.Infrastructure\WMS.Infrastructure.csproj" />
+	</ItemGroup>
+</Project>

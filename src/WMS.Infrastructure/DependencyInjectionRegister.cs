@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WMS.Application.Common.Interface.Persistence;
-using WMS.Application.Common.Interfaces.Persistence;
 using WMS.Application.Services;
 using WMS.Infrastructure.Persistence;
 using WMS.Infrastructure.Persistence.Interceptors;

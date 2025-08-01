@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using WMS.Application.Common.Interfaces.Persistence;
+using WMS.Application.Common.Interface.Persistence;
 using WMS.Domain.ResourceAggregate;
 using WMS.Domain.ResourceAggregate.ValueObjects;
 

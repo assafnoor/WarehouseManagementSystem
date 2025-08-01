@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="ErrorOr" Version="2.0.1" />
+    <PackageVersion Include="FluentAssertions" Version="8.5.0" />
     <PackageVersion Include="FluentResults" Version="4.0.0" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
@@ -19,7 +20,14 @@
     <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="OneOf" Version="3.0.271" />
     <PackageVersion Include="Scalar.AspNetCore" Version="2.6.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="xunit" Version="2.4.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.5" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.0" />
   </ItemGroup>
 </Project>

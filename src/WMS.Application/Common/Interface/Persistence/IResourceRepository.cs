@@ -1,6 +1,6 @@
 using WMS.Domain.ResourceAggregate;
 
-namespace WMS.Application.Common.Interfaces.Persistence;
+namespace WMS.Application.Common.Interface.Persistence;
 
 public interface IResourceRepository
 {
