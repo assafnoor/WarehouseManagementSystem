@@ -30,11 +30,11 @@ public class BalanceRepository : IBalanceRepository
 
     public void Remove(Balance balance)
     {
-        throw new NotImplementedException();
+        _context.Balances.Remove(balance);
     }
 
     public void Update(Balance balance)
     {
-        throw new NotImplementedException();
+        _context.Balances.Update(balance);
     }
 }

@@ -1,4 +1,4 @@
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using WMS.Domain.Common.Models;
@@ -50,6 +50,15 @@ public class PublishDomainEventsInterceptor : SaveChangesInterceptor
 
         foreach (var domainEvent in domainEvents)
         {
+            //try
+            //{
+            //    await _mediator.Publish(domainEvent);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"❌ DomainEvent Failed: {domainEvent.GetType().Name} - {ex.Message}");
+            //    //  _logger.LogError
+            //}
             await _mediator.Publish(domainEvent);
         }
     }
