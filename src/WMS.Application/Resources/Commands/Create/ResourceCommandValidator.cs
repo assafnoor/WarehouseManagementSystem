@@ -8,6 +8,7 @@ public class ResourceCommandValidator : AbstractValidator<ResourceCommand>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(255);
+            .MaximumLength(255)
+               .Must(name => name == name.Trim());
     }
 }
