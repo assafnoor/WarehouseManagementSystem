@@ -16,12 +16,12 @@ namespace WMS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ResourcesController : ApiController
+    public class ReceiptDocumentsController : ApiController
     {
         private readonly IMapper _mapper;
         private readonly ISender _mediator;
 
-        public ResourcesController(ISender mediator, IMapper mapper)
+        public ReceiptDocumentsController(ISender mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;

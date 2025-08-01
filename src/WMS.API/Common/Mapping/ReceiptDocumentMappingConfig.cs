@@ -1,18 +1,16 @@
 ﻿using Mapster;
-using WMS.Application.Resources.Commands.Create;
-using WMS.Application.Resources.Queries.GetById;
-using WMS.Contracts.UnitOfMeasurements.Resources;
+using WMS.Application.ReceiptDocuments.Commands.Create;
+using WMS.Application.ReceiptDocuments.Common;
+using WMS.Contracts.ReceiptDocument;
 
 namespace WMS.API.Common.Mapping;
 
-public class ResourceMappingConfig : IRegister
+public class ReceiptDocumentMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Guid, GetByIdResourceQuery>()
-             .ConstructUsing(id => new GetByIdResourceQuery(id));
-        config.NewConfig<AddResourceRequest, ResourceCommand>();
+        config.NewConfig<CreateReceiptDocumentRequest, CreateReceiptDocumentCommand>();
 
-        config.NewConfig<RequestDelegateResult, ResourceResponse>();
+        config.NewConfig<ReceiptDocumentResult, ReceiptDocumentResponse>();
     }
 }
