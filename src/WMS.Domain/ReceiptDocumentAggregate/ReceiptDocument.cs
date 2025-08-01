@@ -1,4 +1,6 @@
-﻿using WMS.Domain.Common.Models;
+﻿using ErrorOr;
+using WMS.Domain.Common.ErrorCatalog;
+using WMS.Domain.Common.Models;
 using WMS.Domain.Common.ValueObjects;
 using WMS.Domain.ReceiptDocumentAggregate.Entites;
 using WMS.Domain.ReceiptDocumentAggregate.Events;
@@ -53,34 +55,37 @@ public sealed class ReceiptDocument : AggregateRoot<ReceiptDocumentId, Guid>
         return receiptResource;
     }
 
-    public void RemoveResource(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId)
+    public ErrorOr<Success> RemoveResource(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId)
     {
         var resource = _receiptResources
             .FirstOrDefault(r => r.ResourceId.Equals(resourceId) && r.UnitOfMeasurementId.Equals(unitOfMeasurementId));
 
         if (resource is null)
-            throw new InvalidOperationException("Resource not found in receipt");
+            return Errors.Doamin.ResourceNotFound;
 
         var oldQuantity = resource.Quantity;
         _receiptResources.Remove(resource);
 
         AddDomainEvent(new ResourceRemovedFromReceiptEvent(Id, resourceId, unitOfMeasurementId, oldQuantity));
         Touch();
+
+        return Result.Success;
     }
 
-    public void UpdateResourceQuantity(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, Quantity newQuantity)
+    public ErrorOr<Success> UpdateResourceQuantity(ResourceId resourceId, UnitOfMeasurementId unitOfMeasurementId, Quantity newQuantity)
     {
         var resource = _receiptResources
             .FirstOrDefault(r => r.ResourceId.Equals(resourceId) && r.UnitOfMeasurementId.Equals(unitOfMeasurementId));
 
         if (resource is null)
-            throw new InvalidOperationException(message: "Resource not found in receipt");
+            return Errors.Doamin.ResourceNotFound;
 
         var oldQuantity = resource.Quantity;
         resource.ChangeQuantity(newQuantity);
 
         AddDomainEvent(new ResourceQuantityChangedInReceiptEvent(Id, resourceId, unitOfMeasurementId, oldQuantity, newQuantity));
         Touch();
+        return Result.Success;
     }
 
     public void MarkAsDeleted()
