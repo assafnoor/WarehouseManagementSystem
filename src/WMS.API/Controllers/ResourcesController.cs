@@ -9,7 +9,7 @@ using WMS.Application.Resources.Commands.Create;
 using WMS.Application.Resources.Commands.Update;
 using WMS.Application.Resources.Queries.GetAll;
 using WMS.Application.Resources.Queries.GetById;
-using WMS.Contracts.Clients;
+using WMS.Contracts.Resources;
 using WMS.Contracts.UnitOfMeasurements.Resources;
 
 namespace WMS.API.Controllers
@@ -93,18 +93,18 @@ namespace WMS.API.Controllers
             var result = await _mediator.Send(query);
 
             return result.Match(
-                Resource => Ok(_mapper.Map<ResourceResponse>(Resource)),
+                resource => Ok(_mapper.Map<ResourceResponse>(resource)),
                 errors => Problem(errors));
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllClients([FromQuery] GetAllClientsRequest request)
+        public async Task<IActionResult> GetAllResource([FromQuery] GetAllResourcesRequest request)
         {
             var query = _mapper.Map<GetAllResourceQuery>(request);
             var result = await _mediator.Send(query);
 
             return result.Match(
-            Resource => Ok(Resource.Adapt<List<ResourceResponse>>()),
+            resource => Ok(resource.Adapt<List<ResourceResponse>>()),
             errors => Problem(errors));
         }
 

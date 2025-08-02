@@ -5,11 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using WMS.API.Controllers.Common;
 using WMS.Application.ReceiptDocuments.Commands.Create;
 using WMS.Application.ReceiptDocuments.Commands.Update;
-using WMS.Application.Resources.Queries.GetAll;
-using WMS.Application.Resources.Queries.GetById;
+using WMS.Application.ReceiptDocuments.Queries.GetAll;
+using WMS.Application.ReceiptDocuments.Queries.GetById;
 using WMS.Contracts.Clients;
 using WMS.Contracts.ReceiptDocument;
-using WMS.Contracts.UnitOfMeasurements.Resources;
 
 namespace WMS.API.Controllers
 {
@@ -29,7 +28,7 @@ namespace WMS.API.Controllers
         #region Command
 
         [HttpPost("Add")]
-        public async Task<IActionResult> CreateReceiptDocumentController(
+        public async Task<IActionResult> CreateReceiptDocument(
             AddReceiptDocumentRequest request
             )
         {
@@ -42,7 +41,7 @@ namespace WMS.API.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateResource(
+        public async Task<IActionResult> UpdateReceiptDocument(
              UpdateReceiptDocumentRequest request
             )
         {
@@ -59,25 +58,25 @@ namespace WMS.API.Controllers
         #region Query
 
         [HttpGet("GetById/{Id}")]
-        public async Task<IActionResult> GetByIdResource([FromRoute] Guid Id)
+        public async Task<IActionResult> GetByIdReceiptDocument([FromRoute] Guid Id)
         {
-            var query = _mapper.Map<GetByIdResourceQuery>(Id);
+            var query = _mapper.Map<GetByIdReceiptDocumentQuery>(Id);
 
             var result = await _mediator.Send(query);
 
             return result.Match(
-                Resource => Ok(_mapper.Map<ResourceResponse>(Resource)),
+                Resource => Ok(_mapper.Map<ReceiptDocumentResponse>(Resource)),
                 errors => Problem(errors));
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAllClients([FromQuery] GetAllClientsRequest request)
+        public async Task<IActionResult> GetAllReceiptDocuments([FromQuery] GetAllClientsRequest request)
         {
-            var query = _mapper.Map<GetAllResourceQuery>(request);
+            var query = _mapper.Map<GetAllReceiptDocumentQuery>(request);
             var result = await _mediator.Send(query);
 
             return result.Match(
-            Resource => Ok(Resource.Adapt<List<ResourceResponse>>()),
+            Resource => Ok(Resource.Adapt<List<ReceiptDocumentResponse>>()),
             errors => Problem(errors));
         }
 

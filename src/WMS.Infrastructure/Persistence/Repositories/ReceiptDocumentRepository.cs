@@ -49,4 +49,51 @@ public class ReceiptDocumentRepository : IReceiptDocumentRepository
     {
         _context.ReceiptDocuments.Remove(receiptDocument);
     }
+
+    public async Task<IEnumerable<ReceiptDocument>> GetAllAsync(
+    DateTime? fromDate,
+    DateTime? toDate,
+    List<string>? documentNumbers,
+    List<Guid>? resourceIds,
+    List<Guid>? unitIds,
+     int pageNumber = 1,
+     int pageSize = 20
+        )
+    {
+        var query = _context.ReceiptDocuments
+            .Include(rd => rd.ReceiptResources)
+            .AsQueryable();
+
+        if (fromDate.HasValue)
+        {
+            query = query.Where(rd => rd.Date >= fromDate.Value);
+        }
+
+        if (toDate.HasValue)
+        {
+            query = query.Where(rd => rd.Date <= toDate.Value);
+        }
+
+        if (documentNumbers is not null && documentNumbers.Any())
+        {
+            query = query.Where(rd => documentNumbers.Contains(rd.Number.Value));
+        }
+
+        if (resourceIds is not null && resourceIds.Any())
+        {
+            query = query.Where(rd =>
+                rd.ReceiptResources.Any(r => resourceIds.Contains(r.ResourceId.Value)));
+        }
+
+        if (unitIds is not null && unitIds.Any())
+        {
+            query = query.Where(rd =>
+                rd.ReceiptResources.Any(r => unitIds.Contains(r.UnitOfMeasurementId.Value)));
+        }
+
+        query = query.OrderByDescending(rd => rd.Date)
+                   .Skip((pageNumber - 1) * pageSize)
+                   .Take(pageSize);
+        return await query.ToListAsync();
+    }
 }
